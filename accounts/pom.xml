@@ -12,6 +12,7 @@
 	<artifactId>accounts</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>accounts</name>
+    <packaging>jar</packaging>
 	<description>Microservice for Accounts</description>
 	<url/>
 	<licenses>
@@ -79,7 +80,8 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		</dependency>
+            <version>2.8.14</version>
+        </dependency>
 
 	</dependencies>
 
@@ -88,19 +90,23 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
+                <configuration>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</path>
 					</annotationProcessorPaths>
-				</configuration>
+                </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+                    <image>
+                        <name>sumitmittal2022/accounts:1.0</name>
+                        <builder>paketobuildpacks/builder-jammy-tiny:latest</builder>
+                    </image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
