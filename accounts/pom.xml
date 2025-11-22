@@ -103,10 +103,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+                    <!--
+                    FOR BUILDPACKS -         (command to create docker image : mvn spring-boot:build-image)
                     <image>
                         <name>sumitmittal2022/accounts:1.0</name>
                         <builder>paketobuildpacks/builder-jammy-tiny:latest</builder>
                     </image>
+                    -->
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -115,6 +118,17 @@
 					</excludes>
 				</configuration>
 			</plugin>
+            <!-- For GoogleJib        (command to create docker image : mvn compile jib:dockerBuild) -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <to>
+                        <image>sumitmittal2022/accounts:1.0</image>
+                    </to>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
