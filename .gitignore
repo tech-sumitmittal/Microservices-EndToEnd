@@ -26,13 +26,28 @@ target/
 mvnw
 mvnw.cmd
 
+!**/.gitattributes
+!**/.mvn/wrapper/maven-wrapper.properties
+!**/mvnw
+!**/mvnw.cmd
+
 
 accounts/.gitattributes
 accounts/.mvn/wrapper/maven-wrapper.properties
 accounts/mvnw
 accounts/mvnw.cmd
 
-!**/.gitattributes
-!**/.mvn/wrapper/maven-wrapper.properties
-!**/mvnw
-!**/mvnw.cmd
+cards/.gitattributes
+cards/.mvn/wrapper/maven-wrapper.properties
+cards/mvnw
+cards/mvnw.cmd
+
+loans/.gitattributes
+loans/.mvn/wrapper/maven-wrapper.properties
+loans/mvnw
+loans/mvnw.cmd
+
+configserver/.gitattributes
+configserver/.mvn/wrapper/maven-wrapper.properties
+configserver/mvnw
+configserver/mvnw.cmd
