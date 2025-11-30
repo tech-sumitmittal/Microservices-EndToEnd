@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: "accounts"
+  config:
+    import: "optional:configserver:http://localhost:8888/"    # this property is not required for docker-compose. But required if we want to run mvn clean install.
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
