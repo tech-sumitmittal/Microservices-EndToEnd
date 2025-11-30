@@ -20,7 +20,7 @@ FROM openjdk:21-ea-oracle
 WORKDIR /app
 
 # Copy JAR from builder stage
-COPY --from=builder /app/target/accounts-0.0.1-SNAPSHOT.jar accounts-0.0.1-SNAPSHOT.jar
+COPY --from=builder /app/target/configserver-0.0.1-SNAPSHOT.jar configserver-0.0.1-SNAPSHOT.jar
 
 # execute the application
-ENTRYPOINT ["java", "-jar", "accounts-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "configserver-0.0.1-SNAPSHOT.jar"]
