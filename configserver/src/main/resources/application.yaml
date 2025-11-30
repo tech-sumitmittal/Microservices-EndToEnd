@@ -4,7 +4,7 @@ server:
 spring:
   application:
     name: "configserver"
-  profile:
+  profiles:
     active: git
   cloud:
     config:
@@ -15,3 +15,15 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
+
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
