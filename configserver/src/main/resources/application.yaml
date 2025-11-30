@@ -1,0 +1,17 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: "configserver"
+  profile:
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/tech-sumitmittal/microservices-configs.git
+          default-label: master
+          timeout: 5
+          clone-on-start: true
+          force-pull: true

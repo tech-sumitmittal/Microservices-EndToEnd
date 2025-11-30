@@ -1,11 +1,13 @@
 package com.sumit.accounts.controller;
 
+import com.sumit.accounts.dto.ContactInfoDto;
 import com.sumit.accounts.dto.CustomerDto;
 import com.sumit.accounts.dto.ResponseDto;
 import com.sumit.accounts.service.AccountService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Value("${build.version}")
+    private String buildVersion;
 
 
     @PostMapping("/create")
@@ -56,6 +61,11 @@ public class AccountController {
                                  .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
     }
 
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo() {
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(buildVersion);
+    }
 
 
 }

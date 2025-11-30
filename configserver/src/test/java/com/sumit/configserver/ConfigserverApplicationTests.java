@@ -1,10 +1,10 @@
-package com.sumit.cards;
+package com.sumit.configserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = com.sumit.cards.CardsApplication.class)
-class CardsApplicationTests {
+@SpringBootTest
+class ConfigserverApplicationTests {
 
 	@Test
 	void contextLoads() {
