@@ -25,6 +25,9 @@ public class AccountController {
     @Value("${build.version}")
     private String buildVersion;
 
+    @Autowired
+    private ContactInfoDto contactInfoDto;
+
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
@@ -65,6 +68,12 @@ public class AccountController {
     public ResponseEntity<String> getBuildInfo() {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(buildVersion);
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<ContactInfoDto> getContactInfo() {
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(contactInfoDto);
     }
 
 

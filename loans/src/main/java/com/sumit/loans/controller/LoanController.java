@@ -1,5 +1,6 @@
 package com.sumit.loans.controller;
 
+import com.sumit.loans.dto.ContactInfoDto;
 import com.sumit.loans.dto.LoanDto;
 import com.sumit.loans.dto.ResponseDto;
 import com.sumit.loans.service.LoanService;
@@ -23,6 +24,10 @@ public class LoanController {
 
     @Value("${build.version}")
     private String buildVersion;
+
+    @Autowired
+    private ContactInfoDto contactInfoDto;
+
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createLoan(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
@@ -58,6 +63,12 @@ public class LoanController {
     public ResponseEntity<String> getBuildInfo() {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(buildVersion);
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<ContactInfoDto> getContactInfo() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(contactInfoDto);
     }
 
 

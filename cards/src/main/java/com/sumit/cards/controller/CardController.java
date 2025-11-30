@@ -1,7 +1,7 @@
 package com.sumit.cards.controller;
 
-import com.sumit.cards.constants.AppConstant;
 import com.sumit.cards.dto.CardDto;
+import com.sumit.cards.dto.ContactInfoDto;
 import com.sumit.cards.dto.ResponseDto;
 import com.sumit.cards.service.CardService;
 import jakarta.validation.Valid;
@@ -24,7 +24,11 @@ public class CardController {
 
     @Value("${build.version}")
     private String buildVersion;
-    
+
+    @Autowired
+    private ContactInfoDto contactInfoDto;
+
+
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createCard(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         cardService.createCard(mobileNumber);
@@ -59,6 +63,12 @@ public class CardController {
     public ResponseEntity<String> getBuildInfo() {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(buildVersion);
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<ContactInfoDto> getContactInfo() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(contactInfoDto);
     }
 
 
