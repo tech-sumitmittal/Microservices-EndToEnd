@@ -5,24 +5,24 @@ import com.sumit.cards.entity.Card;
 
 public class CardMapper {
 
-    public static CardDto mapToCardDto(Card cards, CardDto cardsDto) {
-        cardsDto.setCardNumber(cards.getCardNumber());
-        cardsDto.setCardType(cards.getCardType());
-        cardsDto.setMobileNumber(cards.getMobileNumber());
-        cardsDto.setTotalLimit(cards.getTotalLimit());
-        cardsDto.setAvailableAmount(cards.getAvailableAmount());
-        cardsDto.setAmountUsed(cards.getAmountUsed());
-        return cardsDto;
+    public static CardDto mapToCardDto(Card card, CardDto cardDto) {
+        cardDto.setCardNumber(card.getCardNumber());
+        cardDto.setCardType(card.getCardType());
+        cardDto.setMobileNumber(card.getMobileNumber());
+        cardDto.setTotalLimit(card.getTotalLimit());
+        cardDto.setAvailableAmount(card.getAvailableAmount());
+        cardDto.setAmountUsed(card.getAmountUsed());
+        return cardDto;
     }
 
-    public static Card mapToCard(CardDto cardsDto, Card cards) {
-        cards.setCardNumber(cardsDto.getCardNumber());
-        cards.setCardType(cardsDto.getCardType());
-        cards.setMobileNumber(cardsDto.getMobileNumber());
-        cards.setTotalLimit(cardsDto.getTotalLimit());
-        cards.setAvailableAmount(cardsDto.getAvailableAmount());
-        cards.setAmountUsed(cardsDto.getAmountUsed());
-        return cards;
+    public static Card mapToCard(CardDto cardDto, Card card) {
+        card.setCardNumber(cardDto.getCardNumber());
+        card.setCardType(cardDto.getCardType());
+        card.setMobileNumber(cardDto.getMobileNumber());
+        card.setTotalLimit(cardDto.getTotalLimit());
+        card.setAvailableAmount(cardDto.getAvailableAmount());
+        card.setAmountUsed(cardDto.getAmountUsed());
+        return card;
     }
 
 }

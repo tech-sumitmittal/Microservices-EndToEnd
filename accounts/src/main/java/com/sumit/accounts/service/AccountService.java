@@ -15,7 +15,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -49,7 +48,6 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-
     public CustomerDto fetchAccount(String mobileNumber) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
@@ -58,25 +56,24 @@ public class AccountService {
                 () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
         );
         CustomerDto customerDto = CustomerMapper.mapToCustomerDTO(customer, new CustomerDto());
-        customerDto.setAccountsDto(AccountMapper.mapToAccountDTO(account, new AccountDto()));
+        customerDto.setAccountDto(AccountMapper.mapToAccountDTO(account, new AccountDto()));
         return customerDto;
     }
 
-
     public boolean updateAccount(@Valid CustomerDto customerDto) {
         boolean isUpdated = false;
-        AccountDto accountsDto = customerDto.getAccountsDto();
-        if(accountsDto !=null ){
+        AccountDto accountDto = customerDto.getAccountDto();
+        if(accountDto !=null ){
 
             // update account details in DB
-            Account accounts = accountRepository.findById(accountsDto.getAccountNumber()).orElseThrow(
-                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountsDto.getAccountNumber().toString())
+            Account account = accountRepository.findById(accountDto.getAccountNumber()).orElseThrow(
+                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountDto.getAccountNumber().toString())
             );
-            AccountMapper.mapToAccount(accountsDto, accounts);
-            accounts = accountRepository.save(accounts);
+            AccountMapper.mapToAccount(accountDto, account);
+            account = accountRepository.save(account);
 
             // update customer details in DB
-            Long customerId = accounts.getCustomerId();
+            Long customerId = account.getCustomerId();
             Customer customer = customerRepository.findById(customerId).orElseThrow(
                     () -> new ResourceNotFoundException("Customer", "CustomerID", customerId.toString())
             );
@@ -86,7 +83,6 @@ public class AccountService {
         }
         return  isUpdated;
     }
-
 
     public boolean deleteAccount(String mobileNumber) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(

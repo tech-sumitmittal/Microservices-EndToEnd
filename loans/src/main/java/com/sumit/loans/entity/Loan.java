@@ -5,7 +5,10 @@ import lombok.*;
 
 @Entity
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
+@Table(name = "loans")
 public class Loan extends BaseEntity {
 
 	@Id

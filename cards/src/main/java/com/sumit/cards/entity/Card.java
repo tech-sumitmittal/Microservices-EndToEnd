@@ -7,6 +7,8 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper=false)
+@Table(name = "cards")
 public class Card extends BaseEntity {
 
 	@Id

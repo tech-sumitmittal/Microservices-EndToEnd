@@ -20,8 +20,8 @@ public class CardService {
     private CardRepository cardRepository;
     
     public void createCard(String mobileNumber) {
-        Optional<Card> optionalCards= cardRepository.findByMobileNumber(mobileNumber);
-        if(optionalCards.isPresent()){
+        Optional<Card> optionalCard= cardRepository.findByMobileNumber(mobileNumber);
+        if(optionalCard.isPresent()){
             throw new CardAlreadyExistsException("Card already registered with given mobileNumber "+mobileNumber);
         }
 
@@ -38,25 +38,25 @@ public class CardService {
     }
     
     public CardDto fetchCard(String mobileNumber) {
-        Card cards = cardRepository.findByMobileNumber(mobileNumber).orElseThrow(
+        Card card = cardRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
         );
-        return CardMapper.mapToCardDto(cards, new CardDto());
+        return CardMapper.mapToCardDto(card, new CardDto());
     }
     
     public boolean updateCard(CardDto CardDto) {
-        Card cards = cardRepository.findByCardNumber(CardDto.getCardNumber()).orElseThrow(
+        Card card = cardRepository.findByCardNumber(CardDto.getCardNumber()).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "CardNumber", CardDto.getCardNumber()));
-        CardMapper.mapToCard(CardDto, cards);
-        cardRepository.save(cards);
+        CardMapper.mapToCard(CardDto, card);
+        cardRepository.save(card);
         return  true;
     }
     
     public boolean deleteCard(String mobileNumber) {
-        Card cards = cardRepository.findByMobileNumber(mobileNumber).orElseThrow(
+        Card card = cardRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
         );
-        cardRepository.deleteById(cards.getCardId());
+        cardRepository.deleteById(card.getCardId());
         return true;
     }
 

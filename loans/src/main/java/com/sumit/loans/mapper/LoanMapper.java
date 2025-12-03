@@ -5,24 +5,24 @@ import com.sumit.loans.entity.Loan;
 
 public class LoanMapper {
 
-    public static LoanDto mapToLoanDto(Loan loans, LoanDto loanDto) {
-        loanDto.setLoanNumber(loans.getLoanNumber());
-        loanDto.setLoanType(loans.getLoanType());
-        loanDto.setMobileNumber(loans.getMobileNumber());
-        loanDto.setTotalLoan(loans.getTotalLoan());
-        loanDto.setAmountPaid(loans.getAmountPaid());
-        loanDto.setOutstandingAmount(loans.getOutstandingAmount());
+    public static LoanDto mapToLoanDto(Loan loan, LoanDto loanDto) {
+        loanDto.setLoanNumber(loan.getLoanNumber());
+        loanDto.setLoanType(loan.getLoanType());
+        loanDto.setMobileNumber(loan.getMobileNumber());
+        loanDto.setTotalLoan(loan.getTotalLoan());
+        loanDto.setAmountPaid(loan.getAmountPaid());
+        loanDto.setOutstandingAmount(loan.getOutstandingAmount());
         return loanDto;
     }
 
-    public static Loan mapToLoan(LoanDto loanDto, Loan loans) {
-        loans.setLoanNumber(loanDto.getLoanNumber());
-        loans.setLoanType(loanDto.getLoanType());
-        loans.setMobileNumber(loanDto.getMobileNumber());
-        loans.setTotalLoan(loanDto.getTotalLoan());
-        loans.setAmountPaid(loanDto.getAmountPaid());
-        loans.setOutstandingAmount(loanDto.getOutstandingAmount());
-        return loans;
+    public static Loan mapToLoan(LoanDto loanDto, Loan loan) {
+        loan.setLoanNumber(loanDto.getLoanNumber());
+        loan.setLoanType(loanDto.getLoanType());
+        loan.setMobileNumber(loanDto.getMobileNumber());
+        loan.setTotalLoan(loanDto.getTotalLoan());
+        loan.setAmountPaid(loanDto.getAmountPaid());
+        loan.setOutstandingAmount(loanDto.getOutstandingAmount());
+        return loan;
     }
 
 }
