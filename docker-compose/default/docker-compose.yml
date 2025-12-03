@@ -57,7 +57,7 @@ services:
       rabbit:
         condition: service_healthy
     healthcheck:
-      test: "curl --fail --silent localhost:8888/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent configserver:8888/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
@@ -65,6 +65,28 @@ services:
     extends:
       file: common-config.yml
       service: configserver-config
+
+  eurekaserver:
+    build:
+      context: ../../eurekaserver   # root folder where eurekaserver folder exist
+      dockerfile: Dockerfile
+    container_name: eurekaserver-ms
+    ports:
+      - "8761:8761"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent eurekaserver:8761/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+    extends:
+      file: common-config.yml
+      service: eurekaserver-config
 
   accounts:
     build:
@@ -75,8 +97,6 @@ services:
       - "8080:8080"
     depends_on:
       accountsdb:
-        condition: service_healthy
-      configserver:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
@@ -97,8 +117,6 @@ services:
     depends_on:
       cardsdb:
         condition: service_healthy
-      configserver:
-        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_DATASOURCE_USERNAME: root
@@ -117,8 +135,6 @@ services:
       - "8082:8082"
     depends_on:
       loansdb:
-        condition: service_healthy
-      configserver:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "loans"
