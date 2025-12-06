@@ -1,0 +1,38 @@
+server:
+  port: 8072
+
+spring:
+  application:
+    name: "gatewayserver"
+  config:
+    import: "optional:configserver:http://localhost:8888/"    # this property is not required for docker-compose. But required if we want to run mvn clean install.
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      access: unrestricted
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "Edge Server/API Gateway"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      sumit:
+        gatewayserver: DEBUG
