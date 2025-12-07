@@ -37,7 +37,7 @@ services:
       service: configserver-config
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
-      SPRING_CONFIG_IMPORT: optional:configserver:http://configserver:8888/
+      SPRING_CONFIG_IMPORT: optional:configserver:http://configserver:8888/      #Eureka, all MS and Gateway needs to connect with config server
 
   microservice-config:
     extends:
