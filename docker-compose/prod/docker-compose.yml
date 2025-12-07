@@ -179,9 +179,9 @@ services:
     depends_on:
       accounts:
         condition: service_healthy
-      loans:
-        condition: service_healthy
       cards:
+        condition: service_healthy
+      loans:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "gatewayserver"
