@@ -6,6 +6,8 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 public class GatewayserverApplication {
 
@@ -18,15 +20,27 @@ public class GatewayserverApplication {
         return routeLocatorBuilder.routes()
                 .route(p -> p
                         .path("/sumitbank/accounts/**")
-                        .filters( f -> f.rewritePath("/sumitbank/accounts/(?<segment>.*)","/${segment}"))
+                        .filters(f ->
+                                f.rewritePath("/sumitbank/accounts/(?<segment>.*)","/${segment}")
+                                .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
+                                .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
+                        )
                         .uri("lb://ACCOUNTS"))
                 .route(p -> p
                         .path("/sumitbank/cards/**")
-                        .filters( f -> f.rewritePath("/sumitbank/cards/(?<segment>.*)","/${segment}"))
+                        .filters( f ->
+                                f.rewritePath("/sumitbank/cards/(?<segment>.*)","/${segment}")
+                                .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
+                                .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
+                        )
                         .uri("lb://CARDS"))
                 .route(p -> p
                         .path("/sumitbank/loans/**")
-                        .filters( f -> f.rewritePath("/sumitbank/loans/(?<segment>.*)","/${segment}"))
+                        .filters( f ->
+                                f.rewritePath("/sumitbank/loans/(?<segment>.*)","/${segment}")
+                                .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
+                                .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
+                        )
                         .uri("lb://LOANS"))
                 .build();
     }
