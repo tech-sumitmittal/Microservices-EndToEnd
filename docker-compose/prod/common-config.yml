@@ -16,7 +16,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
 
-  configserver-config:
+
+
+  base-config:
     extends:
       service: network-config
     deploy:
@@ -26,22 +28,19 @@ services:
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
 
+  configserver-config:
+    extends:
+      service: base-config
+
   eurekaserver-config:
     extends:
       service: configserver-config
-    deploy:
-      resources:
-        limits:
-          memory: 700m
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
+      SPRING_CONFIG_IMPORT: optional:configserver:http://configserver:8888/
 
   microservice-config:
     extends:
-      service: configserver-config
-    depends_on:
-      eurekaserver:
-        condition: service_healthy
+      service: eurekaserver-config
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8888/

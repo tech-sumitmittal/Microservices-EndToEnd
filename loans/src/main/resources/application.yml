@@ -1,13 +1,14 @@
 server:
   port: 8082
 
+
 spring:
   application:
     name: "loans"
   profiles:
     active: "qa"
   config:
-    import: "optional:configserver:http://localhost:8888/"    # this property is not required for docker-compose. But required if we want to run mvn clean install.
+    import: "optional:configserver:http://configserver:8888/"    # this property is not required for docker-compose. But required if we want to run mvn clean install.
   datasource:
     url: jdbc:mysql://localhost:3308/loansdb
     username: root
@@ -23,17 +24,6 @@ spring:
     username: "guest"
     password: "guest"
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    shutdown:
-      access: unrestricted
-  info:
-    env:
-      enabled: true
 
 eureka:
   instance:
@@ -48,6 +38,28 @@ info:
     name: "loans"
     description: "Loans Application"
     version: "1.0.0"
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      access: unrestricted
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
 
 logging:
   level:
