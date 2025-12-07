@@ -48,3 +48,9 @@ info:
     name: "accounts"
     description: "Accounts Application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      sumit:
+        accounts: DEBUG

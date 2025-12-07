@@ -6,6 +6,8 @@ import com.sumit.cards.dto.ResponseDto;
 import com.sumit.cards.service.CardService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 public class CardController {
+
+    private static final Logger logger = LoggerFactory.getLogger(CardController.class);
 
     @Autowired
     private CardService cardService;
@@ -36,7 +40,10 @@ public class CardController {
     }
     
     @GetMapping("/fetch")
-    public ResponseEntity<CardDto> fetchCardDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+    public ResponseEntity<CardDto> fetchCardDetails(
+            @RequestHeader("sumitbank-trace-id") String traceId,
+            @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        logger.debug("trace-id : {}", traceId);
         CardDto cardDto = cardService.fetchCard(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(cardDto);
     }

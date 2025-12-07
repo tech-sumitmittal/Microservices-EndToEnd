@@ -14,6 +14,8 @@ import com.sumit.accounts.repository.CustomerRepository;
 import com.sumit.accounts.service.feignClient.CardFeignClient;
 import com.sumit.accounts.service.feignClient.LoanFeignClient;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +23,17 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CustomerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
     private AccountRepository accountRepository;
     private CustomerRepository customerRepository;
     private CardFeignClient cardFeignClient;
     private LoanFeignClient loanFeignClient;
 
 
-    public CustomerDetailDto fetchCustomerDetails(String mobileNumber) {
+    public CustomerDetailDto fetchCustomerDetails(String traceId, String mobileNumber) {
+        logger.debug("trace-id : {}", traceId);
+
         // customer and account information
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
@@ -40,11 +46,11 @@ public class CustomerService {
         customerDetailDto.setAccountDto(AccountMapper.mapToAccountDTO(account, new AccountDto()));
 
         // Card information from
-        ResponseEntity<CardDto> cardDtoResponseEntity = cardFeignClient.fetchCardDetails(mobileNumber);
+        ResponseEntity<CardDto> cardDtoResponseEntity = cardFeignClient.fetchCardDetails(traceId, mobileNumber);
         customerDetailDto.setCardDto(cardDtoResponseEntity.getBody());
 
         // Loan information
-        ResponseEntity<LoanDto> loanDtoResponseEntity = loanFeignClient.fetchLoanDetails(mobileNumber);
+        ResponseEntity<LoanDto> loanDtoResponseEntity = loanFeignClient.fetchLoanDetails(traceId, mobileNumber);
         customerDetailDto.setLoanDto(loanDtoResponseEntity.getBody());
 
         return customerDetailDto;
