@@ -24,22 +24,24 @@ public class GatewayserverApplication {
                                 f.rewritePath("/sumitbank/accounts/(?<segment>.*)","/${segment}")
                                 .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
                                 .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
+                                .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
+                                                                 .setFallbackUri("forward:/contact-support"))
                         )
                         .uri("lb://ACCOUNTS"))
                 .route(p -> p
                         .path("/sumitbank/cards/**")
                         .filters( f ->
                                 f.rewritePath("/sumitbank/cards/(?<segment>.*)","/${segment}")
-                                .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
-                                .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
+                                 .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
+                                 .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
                         )
                         .uri("lb://CARDS"))
                 .route(p -> p
                         .path("/sumitbank/loans/**")
                         .filters( f ->
                                 f.rewritePath("/sumitbank/loans/(?<segment>.*)","/${segment}")
-                                .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
-                                .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
+                                 .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
+                                 .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
                         )
                         .uri("lb://LOANS"))
                 .build();
