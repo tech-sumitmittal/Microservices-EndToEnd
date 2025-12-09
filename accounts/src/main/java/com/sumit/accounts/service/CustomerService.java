@@ -47,11 +47,13 @@ public class CustomerService {
 
         // Card information from
         ResponseEntity<CardDto> cardDtoResponseEntity = cardFeignClient.fetchCardDetails(traceId, mobileNumber);
-        customerDetailDto.setCardDto(cardDtoResponseEntity.getBody());
+        if(cardDtoResponseEntity != null)
+            customerDetailDto.setCardDto(cardDtoResponseEntity.getBody());
 
         // Loan information
         ResponseEntity<LoanDto> loanDtoResponseEntity = loanFeignClient.fetchLoanDetails(traceId, mobileNumber);
-        customerDetailDto.setLoanDto(loanDtoResponseEntity.getBody());
+        if(loanDtoResponseEntity != null)
+            customerDetailDto.setLoanDto(loanDtoResponseEntity.getBody());
 
         return customerDetailDto;
     }
