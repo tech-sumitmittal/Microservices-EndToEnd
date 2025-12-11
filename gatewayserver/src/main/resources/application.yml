@@ -16,6 +16,21 @@ spring:
         connect-timeout: 1000
         response-timeout: 5s
 
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        permittedNumberOfCallsInHalfOpenState: 2
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 5s
+
+
 management:
   endpoints:
     web:
@@ -39,11 +54,3 @@ logging:
     com:
       sumit:
         gatewayserver: DEBUG
-
-resilience4j.circuitbreaker:
-  configs:
-    default:
-      slidingWindowSize: 10
-      failureRateThreshold: 50
-      waitDurationInOpenState: 10000
-      permittedNumberOfCallsInHalfOpenState: 2
