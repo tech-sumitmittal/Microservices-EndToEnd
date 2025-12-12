@@ -18,7 +18,7 @@ spring:
   data:
     redis:
       connect-timeout: 2s
-      host: localhost
+      host: redis             #change redis to localhost, if running application from IntelliJ
       port: 6379
       timeout: 1s
 

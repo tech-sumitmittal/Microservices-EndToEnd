@@ -55,7 +55,7 @@ resilience4j:
       default:
         limitForPeriod: 10      # allow 10 calls
         limitRefreshPeriod: 1s  # per 1 second
-        timeoutDuration: 1s     # will wait for 1 second for quota
+        timeoutDuration: 1s     # will wait for 1 second for quota refresh
 
 
 
