@@ -2,10 +2,13 @@ package com.sumit.gatewayserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -34,6 +37,9 @@ public class GatewayserverApplication {
                                         r.setRetries(3)
                                         .setMethods(HttpMethod.GET)
                                         .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true))
+                                .requestRateLimiter(rl ->
+                                        rl.setRateLimiter(redisRateLimiter())
+                                        .setKeyResolver(ipKeyResolver()))
                         )
                         .uri("lb://ACCOUNTS"))
                 .route(p -> p
@@ -64,5 +70,24 @@ public class GatewayserverApplication {
                         .uri("lb://LOANS"))
                 .build();
     }
+
+
+    // *********** for RateLimiter *******************************************************
+
+    @Bean
+    public RedisRateLimiter redisRateLimiter() {
+        return new RedisRateLimiter( 5, 20, 1);
+    }
+
+    // KeyResolver : Uses client IP as key
+    @Bean
+    public KeyResolver ipKeyResolver() {
+        return exchange -> Mono.just(
+                exchange.getRequest().getRemoteAddress().getAddress().getHostAddress()
+        );
+    }
+
+    // *********** for RateLimiter Ends *******************************************************
+
 
 }
