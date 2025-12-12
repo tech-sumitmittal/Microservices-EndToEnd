@@ -29,6 +29,7 @@ public class GatewayserverApplication {
                                 f.rewritePath("/sumitbank/accounts/(?<segment>.*)","/${segment}")
                                 .addRequestHeader("X-REQUEST-TIME", LocalDateTime.now().toString())
                                 .addResponseHeader("X-RESPONSE-TIME", LocalDateTime.now().toString())
+                                // gateway circuit breaker
                                 .circuitBreaker(config ->
                                         config.setName("accountsCircuitBreaker")
                                         .setFallbackUri("forward:/contact-support"))
@@ -37,6 +38,7 @@ public class GatewayserverApplication {
                                         r.setRetries(3)
                                         .setMethods(HttpMethod.GET)
                                         .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true))
+                                // gateway rate limiter
                                 .requestRateLimiter(rl ->
                                         rl.setRateLimiter(redisRateLimiter())
                                         .setKeyResolver(ipKeyResolver()))
