@@ -29,13 +29,27 @@ spring:
         enabled: true
 
 
-resilience4j.circuitbreaker:
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        permittedNumberOfCallsInHalfOpenState: 2
+
+# 2. Resilience4j retry with fallback mechanism
+resilience4j.retry:
   configs:
     default:
-      slidingWindowSize: 10
-      failureRateThreshold: 50
-      waitDurationInOpenState: 10000
-      permittedNumberOfCallsInHalfOpenState: 2
+      maxAttempts: 3
+      waitDuration: 500
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+      ignoreExceptions:
+        - java.lang.NullPointerException
+      retryExceptions:
+        - java.util.concurrent.TimeoutException
 
 
 eureka:
