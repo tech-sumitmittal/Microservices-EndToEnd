@@ -4,6 +4,7 @@ import com.sumit.accounts.dto.ContactInfoDto;
 import com.sumit.accounts.dto.CustomerDto;
 import com.sumit.accounts.dto.ResponseDto;
 import com.sumit.accounts.service.AccountService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,9 @@ public class AccountController {
 
     @Autowired
     private ContactInfoDto contactInfoDto;
+
+    @Autowired
+    private Environment environment;
 
 
     @PostMapping("/create")
@@ -91,5 +96,18 @@ public class AccountController {
                 .body("0.9");
     }
 
+    @RateLimiter(name= "getJavaVersion", fallbackMethod = "getJavaVersionFallback")
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("JAVA_HOME"));
+    }
+
+    public ResponseEntity<String> getJavaVersionFallback(Throwable throwable) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Java 21");
+    }
 
 }
