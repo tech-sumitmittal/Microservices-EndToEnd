@@ -169,6 +169,21 @@ services:
       file: common-config.yml
       service: microservice-config
 
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: base-config
+
   gatewayserver:
     build:
       context: ../../gatewayserver   # root folder where gatewayserver folder exist
@@ -177,6 +192,8 @@ services:
     ports:
       - "8072:8072"
     depends_on:
+      redis:
+        condition: service_healthy
       accounts:
         condition: service_healthy
       cards:
@@ -185,9 +202,13 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "gatewayserver"
+      SPRING_DATA_REDIS_CONNECT-TIMEOUT: 2s
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_TIMEOUT: 1s
     extends:
       file: common-config.yml
-      service: eurekaserver-config
+      service: microservice-config
 
 
 networks:

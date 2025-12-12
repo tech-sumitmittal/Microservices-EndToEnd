@@ -170,13 +170,12 @@ services:
       service: microservice-config
 
   redis:
-    image: redis:7
+    image: redis
     container_name: redis
     ports:
       - "6379:6379"
-    command: ["redis-server", "--appendonly", "yes"]
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -203,6 +202,10 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "gatewayserver"
+      SPRING_DATA_REDIS_CONNECT-TIMEOUT: 2s
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_TIMEOUT: 1s
     extends:
       file: common-config.yml
       service: microservice-config
