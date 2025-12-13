@@ -51,3 +51,7 @@ configserver/.gitattributes
 configserver/.mvn/wrapper/maven-wrapper.properties
 configserver/mvnw
 configserver/mvnw.cmd
+
+docker-compose/default/.data/
+docker-compose/qa/.data/
+docker-compose/prod/.data/
