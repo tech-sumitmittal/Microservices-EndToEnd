@@ -1,7 +1,7 @@
 services:
 
 
-  # Loki Read component
+# Loki (Logs Aggregator) Read component ################################################################################
 
   read:
     image: grafana/loki:3.6.2
@@ -25,7 +25,7 @@ services:
           - loki
 
 
-  # Loki Write component
+# Loki (Logs Aggregator) Write component ###############################################################################
 
   write:
     image: grafana/loki:3.6.2
@@ -47,7 +47,7 @@ services:
       <<: *loki-dns
 
 
-  # Alloy/Promtail : Log Agent which will pull logs from All MS in same network
+# Alloy/Promtail : Log Agent which will pull logs from All MS in same network ##########################################
 
   alloy:
     image: grafana/alloy:v1.12.0
@@ -64,7 +64,7 @@ services:
       service: network-config
 
 
-  # To store all the logs from Loki Write and provide it to Loki Read when requested
+# To store all the logs from Loki Write and provide it to Loki Read when requested #####################################
 
   minio:
     image: minio/minio:RELEASE.2025-09-07T16-13-09Z
@@ -93,33 +93,9 @@ services:
       file: common-config.yml
       service: network-config
 
-  #  prometheus:
-  #    image: prom/prometheus:v3.8.0
-  #    container_name: prometheus
-  #    ports:
-  #      - "9090:9090"
-  #    volumes:
-  #      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-  #    extends:
-  #      file: common-config.yml
-  #      service: network-config
-  #
-  #  tempo:
-  #    image: grafana/tempo:2.9.0
-  #    container_name: tempo
-  #    command: -config.file /etc/tempo-config.yml
-  #    ports:
-  #      - "3110:3100"
-  #      - "4318:4318"
-  #    volumes:
-  #      - ../observability/tempo/tempo.yml:/etc/tempo-config.yml
-  #    extends:
-  #      file: common-config.yml
-  #      service: network-config
 
-
-  # Grafana for Logs UI
-  # Gateway : main man between A, L, G       Alloy ---(Gateway)---> Loki ---(Gateway)---> Grafana
+# Grafana for Logs UI ##################################################################################################
+# Gateway : main man between A, L, G       Alloy ---(Gateway)---> Loki ---(Gateway)---> Grafana ########################
 
   grafana:
     image: grafana/grafana:12.3.0
@@ -236,7 +212,7 @@ services:
 
 
 
-  # All Database instances
+# All Database instances ###############################################################################################
 
   accountsdb:
     container_name: accountsdb
@@ -269,7 +245,7 @@ services:
       service: database-config
 
 
-  # RabbitMQ for Refresh configs using spring cloud bus
+# RabbitMQ for Refresh configs using spring cloud bus ##################################################################
 
   rabbit:
     image: rabbitmq:4-management
@@ -288,7 +264,7 @@ services:
       service: base-config
 
 
-  # Redis for Gateway Rate Limiter
+# Redis for Gateway Rate Limiter #######################################################################################
 
   redis:
     image: redis
@@ -306,7 +282,7 @@ services:
       service: base-config
 
 
-  # Config server for managing configurations outside business logic
+# Config server for managing configurations outside business logic #####################################################
 
   configserver:
     build:
@@ -329,7 +305,7 @@ services:
       service: configserver-config
 
 
-  # Eureka server for Service Discovery
+# Eureka server for Service Discovery ##################################################################################
 
   eurekaserver:
     build:
@@ -354,7 +330,7 @@ services:
       service: eurekaserver-config
 
 
-  # All microservices
+# All microservices ####################################################################################################
 
   accounts:
     build:
@@ -438,7 +414,7 @@ services:
       service: microservice-config
 
 
-  # Gateway server for single point entry & cross-cutting concerns
+# Gateway server for single point entry & cross-cutting concerns #######################################################
 
   gatewayserver:
     build:
