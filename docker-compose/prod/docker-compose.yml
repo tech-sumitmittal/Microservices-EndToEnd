@@ -1,5 +1,7 @@
 services:
 
+# All Database instances
+
   accountsdb:
     container_name: accountsdb
     ports:
@@ -30,6 +32,9 @@ services:
       file: common-config.yml
       service: database-config
 
+
+# RabbitMQ for Refresh configs using spring cloud bus
+
   rabbit:
     image: rabbitmq:4-management
     hostname: rabbitmq
@@ -45,6 +50,27 @@ services:
     extends:
       file: common-config.yml
       service: base-config
+
+
+# Redis for Gateway Rate Limiter
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: base-config
+
+
+# Config server for managing configurations outside business logic
 
   configserver:
     build:
@@ -65,6 +91,9 @@ services:
     extends:
       file: common-config.yml
       service: configserver-config
+
+
+# Eureka server for Service Discovery
 
   eurekaserver:
     build:
@@ -87,6 +116,9 @@ services:
     extends:
       file: common-config.yml
       service: eurekaserver-config
+
+
+# All microservices
 
   accounts:
     build:
@@ -169,20 +201,8 @@ services:
       file: common-config.yml
       service: microservice-config
 
-  redis:
-    image: redis
-    container_name: redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: base-config
+
+# Gateway server for single point entry & cross-cutting concerns
 
   gatewayserver:
     build:

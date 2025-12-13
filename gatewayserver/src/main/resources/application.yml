@@ -13,7 +13,7 @@ spring:
           enabled: false
           lowerCaseServiceId: true
       httpclient:
-        connect-timeout: 3s
+        connect-timeout: 3000
         response-timeout: 5s
   data:
     redis:
