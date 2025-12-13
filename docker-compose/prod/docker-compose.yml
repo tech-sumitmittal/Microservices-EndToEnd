@@ -94,6 +94,20 @@ services:
       service: network-config
 
 
+# Prometheus as Events aggregator ######################################################################################
+
+  prometheus:
+    image: prom/prometheus:v3.8.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    extends:
+      file: common-config.yml
+      service: network-config
+
+
 # Grafana for Logs UI ##################################################################################################
 # Gateway : main man between A, L, G       Alloy ---(Gateway)---> Loki ---(Gateway)---> Grafana ########################
 
