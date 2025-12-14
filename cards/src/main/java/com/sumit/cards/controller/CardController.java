@@ -43,8 +43,10 @@ public class CardController {
     public ResponseEntity<CardDto> fetchCardDetails(
             @RequestHeader("sumitbank-trace-id") String traceId,
             @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
-        logger.debug("trace-id : {}", traceId);
+        //logger.debug("trace-id : {}", traceId);
+        logger.debug("Entry CardController.fetchCardDetails");
         CardDto cardDto = cardService.fetchCard(mobileNumber);
+        logger.debug("Exit CardController.fetchCardDetails");
         return ResponseEntity.status(HttpStatus.OK).body(cardDto);
     }
 

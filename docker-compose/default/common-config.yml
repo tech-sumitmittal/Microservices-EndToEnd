@@ -27,14 +27,14 @@ services:
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
-
-  configserver-config:
-    extends:
-      service: base-config
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-2.22.0.jar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
 
   eurekaserver-config:
     extends:
-      service: configserver-config
+      service: base-config
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
       SPRING_CONFIG_IMPORT: optional:configserver:http://configserver:8888/      #Eureka, all MS and Gateway needs to connect with config server

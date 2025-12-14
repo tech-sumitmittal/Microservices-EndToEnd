@@ -43,8 +43,10 @@ public class LoanController {
     public ResponseEntity<LoanDto> fetchLoanDetails(
             @RequestHeader("sumitbank-trace-id") String traceId,
             @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
-        logger.debug("trace-id : {}", traceId);
+        //logger.debug("trace-id : {}", traceId);
+        logger.debug("Entry LoanController.fetchLoanDetails");
         LoanDto loanDto = loanService.fetchLoan(mobileNumber);
+        logger.debug("Exit LoanController.fetchLoanDetails");
         return ResponseEntity.status(HttpStatus.OK).body(loanDto);
     }
 

@@ -7,6 +7,8 @@ import com.sumit.cards.exception.CardAlreadyExistsException;
 import com.sumit.cards.exception.ResourceNotFoundException;
 import com.sumit.cards.mapper.CardMapper;
 import com.sumit.cards.repository.CardRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.Random;
 
 @Service
 public class CardService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CardService.class);
 
     @Autowired
     private CardRepository cardRepository;
@@ -38,9 +42,11 @@ public class CardService {
     }
     
     public CardDto fetchCard(String mobileNumber) {
+        logger.debug("Entry CardService.fetchCard");
         Card card = cardRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
         );
+        logger.debug("Exit CardService.fetchCard");
         return CardMapper.mapToCardDto(card, new CardDto());
     }
     

@@ -32,7 +32,8 @@ public class CustomerService {
 
 
     public CustomerDetailDto fetchCustomerDetails(String traceId, String mobileNumber) {
-        logger.debug("trace-id : {}", traceId);
+        //logger.debug("trace-id : {}", traceId);
+        logger.debug("Entry CustomerService.fetchCustomerDetails");
 
         // customer and account information
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
@@ -55,6 +56,7 @@ public class CustomerService {
         if(loanDtoResponseEntity != null)
             customerDetailDto.setLoanDto(loanDtoResponseEntity.getBody());
 
+        logger.debug("Exit CustomerService.fetchCustomerDetails");
         return customerDetailDto;
     }
 
