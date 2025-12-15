@@ -17,19 +17,6 @@
     <name>cards</name>
     <packaging>jar</packaging>
     <description>Microservice for Cards</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
 
     <properties>
         <java.version>21</java.version>
