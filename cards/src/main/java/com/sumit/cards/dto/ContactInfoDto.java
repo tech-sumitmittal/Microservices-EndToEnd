@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.List;
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "card")
+@ConfigurationProperties(prefix = "cards")
 @Getter
 @Setter
 public class ContactInfoDto {
