@@ -21,6 +21,11 @@ spring:
       host: redis             #change redis to localhost, if running application from IntelliJ
       port: 6379
       timeout: 5s
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"    # to download public certificate from keycloak
 
 
 resilience4j:
