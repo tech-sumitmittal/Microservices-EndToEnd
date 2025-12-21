@@ -27,4 +27,6 @@ public class Account extends BaseEntity {
 
     //private Customer customer;
 
+    private Boolean communicationSent;
+
 }

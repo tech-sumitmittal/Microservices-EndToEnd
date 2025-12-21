@@ -1,5 +1,20 @@
 services:
 
+# Keycloak as Auth Server ##############################################################################################
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.7
+    container_name: keycloak
+    ports:
+      - "127.0.0.1:7080:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "admin"
+    command: "start-dev"
+    extends:
+      file: common-config.yml
+      service: network-config
+
 
 # Loki (Logs Aggregator) Read component ################################################################################
 
@@ -271,7 +286,7 @@ services:
       service: database-config
 
 
-# RabbitMQ for Refresh configs using spring cloud bus ##################################################################
+# RabbitMQ for R~efresh configs using spring cloud bus ##################################################################
 
   rabbit:
     image: rabbitmq:4-management
@@ -366,8 +381,6 @@ services:
       context: ../../accounts   # root folder where accounts folder exist
       dockerfile: Dockerfile
     container_name: accounts-ms
-    ports:
-      - "8080:8080"
     depends_on:
       eurekaserver:
         condition: service_healthy
@@ -394,8 +407,6 @@ services:
       context: ../../cards   # root folder where cards folder exist
       dockerfile: Dockerfile
     container_name: cards-ms
-    ports:
-      - "8081:8081"
     depends_on:
       eurekaserver:
         condition: service_healthy
@@ -422,8 +433,6 @@ services:
       context: ../../loans   # root folder where loans folder exist
       dockerfile: Dockerfile
     container_name: loans-ms
-    ports:
-      - "8082:8082"
     depends_on:
       eurekaserver:
         condition: service_healthy
@@ -444,6 +453,23 @@ services:
     extends:
       file: common-config.yml
       service: microservice-config
+
+
+# Message microservice for Event Driven MicroServices ##################################################################
+
+  message:
+    build:
+      context: ../../message   # root folder where cards folder exist
+      dockerfile: Dockerfile
+    container_name: message-ms
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+    extends:
+      file: common-config.yml
+      service: network-config
 
 
 # Gateway server for single point entry & cross-cutting concerns #######################################################
@@ -471,6 +497,7 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_DATA_REDIS_TIMEOUT: 1s
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
     extends:
       file: common-config.yml
       service: microservice-config
