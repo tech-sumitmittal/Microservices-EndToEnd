@@ -1,6 +1,41 @@
 services:
 
-# Keycloak as Auth Server ##############################################################################################
+  # Kafka for Event driven microservices #################################################################################
+
+  kafka:
+    image: apache/kafka:latest
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_LISTENERS: PLAINTEXT://kafka:29092,CONTROLLER://kafka:29093,PLAINTEXT_HOST://kafka:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Pk
+    healthcheck:
+      test: [ "CMD-SHELL", "nc -z kafka 9092 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: network-config
+
+
+  # Keycloak as Auth Server ##############################################################################################
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.4.7
@@ -16,10 +51,11 @@ services:
       service: network-config
 
 
-# Loki (Logs Aggregator) Read component ################################################################################
+  # Loki (Logs Aggregator) Read component ################################################################################
 
   read:
     image: grafana/loki:3.6.2
+    container_name: loki-read
     command: "-config.file=/etc/loki/config.yml -target=read"
     ports:
       - "3101:3100"
@@ -38,10 +74,11 @@ services:
           - loki
 
 
-# Loki (Logs Aggregator) Write component ###############################################################################
+  # Loki (Logs Aggregator) Write component ###############################################################################
 
   write:
     image: grafana/loki:3.6.2
+    container_name: loki-write
     command: "-config.file=/etc/loki/config.yml -target=write"
     ports:
       - "3102:3100"
@@ -58,10 +95,11 @@ services:
       <<: *loki-dns
 
 
-# Alloy/Promtail : Log Agent which will pull logs from All MS in same network ##########################################
+  # Alloy/Promtail : Log Agent which will pull logs from All MS in same network ##########################################
 
   alloy:
     image: grafana/alloy:v1.12.0
+    container_name: alloy
     volumes:
       - ../observability/alloy/alloy-local-config.yml:/etc/alloy/config.alloy:ro
       - /var/run/docker.sock:/var/run/docker.sock
@@ -75,10 +113,11 @@ services:
       service: network-config
 
 
-# To store all the logs from Loki Write and provide it to Loki Read when requested #####################################
+  # To store all the logs from Loki Write and provide it to Loki Read when requested #####################################
 
   minio:
     image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    container_name: minio
     entrypoint:
       - sh
       - -euc
@@ -105,7 +144,7 @@ services:
       service: network-config
 
 
-# Prometheus as Events aggregator ######################################################################################
+  # Prometheus as Events aggregator ######################################################################################
 
   prometheus:
     image: prom/prometheus:v3.8.0
@@ -119,7 +158,7 @@ services:
       service: network-config
 
 
-# Tempo for distributed tracing ########################################################################################
+  # Tempo for distributed tracing ########################################################################################
 
   tempo:
     image: grafana/tempo:2.9.0
@@ -135,11 +174,12 @@ services:
       service: network-config
 
 
-# Grafana for Logs UI ##################################################################################################
-# Gateway : main man between A, L, G       Alloy ---(Gateway)---> Loki ---(Gateway)---> Grafana ########################
+  # Grafana for Logs UI ##################################################################################################
+  # Gateway : main man between A, L, G       Alloy ---(Gateway)---> Loki ---(Gateway)---> Grafana ########################
 
   grafana:
     image: grafana/grafana:12.3.0
+    container_name: grafana
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
@@ -166,6 +206,7 @@ services:
 
   backend:
     image: grafana/loki:3.6.2
+    container_name: grafana-backend
     volumes:
       - ../observability/loki/loki-config.yml:/etc/loki/config.yml
     ports:
@@ -180,6 +221,7 @@ services:
 
   gateway:
     image: nginx:1.29.3
+    container_name: grafana-gateway
     depends_on:
       - read
       - write
@@ -253,7 +295,7 @@ services:
 
 
 
-# All Database instances ###############################################################################################
+  # All Database instances ###############################################################################################
 
   accountsdb:
     container_name: accountsdb
@@ -286,26 +328,30 @@ services:
       service: database-config
 
 
-# RabbitMQ for Refresh configs using spring cloud bus ##################################################################
+  # RabbitMQ for Refresh configs using spring cloud bus ##################################################################
+  # RabbitMQ for Event driven microservices ##############################################################################
 
   rabbit:
     image: rabbitmq:4-management
     hostname: rabbitmq
+    container_name: rabbit
     ports:
       - "5672:5672"
       - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
     healthcheck:
       test: rabbitmq-diagnostics check_port_connectivity
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 30s
     extends:
       file: common-config.yml
       service: base-config
 
 
-# Redis for Gateway Rate Limiter #######################################################################################
+  # Redis for Gateway Rate Limiter #######################################################################################
 
   redis:
     image: redis
@@ -323,7 +369,7 @@ services:
       service: base-config
 
 
-# Config server for managing configurations outside business logic #####################################################
+  # Config server for managing configurations outside business logic #####################################################
 
   configserver:
     build:
@@ -348,7 +394,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
 
-# Eureka server for Service Discovery ##################################################################################
+  # Eureka server for Service Discovery ##################################################################################
 
   eurekaserver:
     build:
@@ -374,7 +420,7 @@ services:
       service: eurekaserver-config
 
 
-# All microservices ####################################################################################################
+  # All microservices ####################################################################################################
 
   accounts:
     build:
@@ -388,6 +434,8 @@ services:
         condition: service_healthy
       accountsdb:
         condition: service_healthy
+      kafka:
+        condition: service_healthy
     healthcheck:
       test: "curl --fail --silent accounts:8080/actuator/health/readiness | grep UP || exit 1"
       interval: 30s
@@ -400,6 +448,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
     extends:
       file: common-config.yml
       service: microservice-config
@@ -461,7 +510,7 @@ services:
       service: microservice-config
 
 
-# Message microservice for Event Driven MicroServices ##################################################################
+  # Message microservice for Event Driven MicroServices ##################################################################
 
   message:
     build:
@@ -469,17 +518,20 @@ services:
       dockerfile: Dockerfile
     container_name: message-ms
     depends_on:
-      rabbit:
+      #rabbit:
+      #  condition: service_healthy
+      kafka:
         condition: service_healthy
     environment:
-      SPRING_RABBITMQ_HOST: "rabbit"
+      #SPRING_RABBITMQ_HOST: "rabbit"
       OTEL_SERVICE_NAME: "message"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
     extends:
       file: common-config.yml
       service: microservice-config
 
 
-# Gateway server for single point entry & cross-cutting concerns #######################################################
+  # Gateway server for single point entry & cross-cutting concerns #######################################################
 
   gatewayserver:
     build:
@@ -513,3 +565,6 @@ services:
 networks:
   sumit-network:
     driver: bridge
+
+volumes:
+  rabbitmq-data:
