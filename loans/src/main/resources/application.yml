@@ -23,7 +23,7 @@ spring:
     port: 5672
     username: "guest"
     password: "guest"
-
+    connection-timeout: 10s
 
 eureka:
   instance:

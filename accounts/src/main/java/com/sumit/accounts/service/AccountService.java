@@ -60,7 +60,6 @@ public class AccountService {
 
         // To send communication
         sendCommunication(savedAccount, customer);
-
     }
 
     private void sendCommunication(Account account, Customer customer) {

@@ -286,7 +286,7 @@ services:
       service: database-config
 
 
-# RabbitMQ for R~efresh configs using spring cloud bus ##################################################################
+# RabbitMQ for Refresh configs using spring cloud bus ##################################################################
 
   rabbit:
     image: rabbitmq:4-management
@@ -381,6 +381,8 @@ services:
       context: ../../accounts   # root folder where accounts folder exist
       dockerfile: Dockerfile
     container_name: accounts-ms
+    #ports:
+    #  - "8080:8080"
     depends_on:
       eurekaserver:
         condition: service_healthy
@@ -407,6 +409,8 @@ services:
       context: ../../cards   # root folder where cards folder exist
       dockerfile: Dockerfile
     container_name: cards-ms
+    #ports:
+    #  - "8081:8081"
     depends_on:
       eurekaserver:
         condition: service_healthy
@@ -433,6 +437,8 @@ services:
       context: ../../loans   # root folder where loans folder exist
       dockerfile: Dockerfile
     container_name: loans-ms
+    #ports:
+    #  - "8082:8082"
     depends_on:
       eurekaserver:
         condition: service_healthy
@@ -467,9 +473,10 @@ services:
         condition: service_healthy
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
+      OTEL_SERVICE_NAME: "message"
     extends:
       file: common-config.yml
-      service: network-config
+      service: microservice-config
 
 
 # Gateway server for single point entry & cross-cutting concerns #######################################################
