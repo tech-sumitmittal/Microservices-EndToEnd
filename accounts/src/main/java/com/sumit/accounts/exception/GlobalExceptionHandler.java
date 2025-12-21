@@ -1,6 +1,6 @@
 package com.sumit.accounts.exception;
 
-import com.sumit.accounts.dto.ErrorResponseDto;
+import com.sumit.accounts.dto.ErrorResponseDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -41,23 +41,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     // global exception handler
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception exception, WebRequest webRequest) {
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(webRequest.getDescription(false), HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), LocalDateTime.now());
+    public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception exception, WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(webRequest.getDescription(false), HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                              .body(errorResponseDTO);
     }
 
     // Custom exception handlers
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest) {
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto( webRequest.getDescription(false), HttpStatus.NOT_FOUND, exception.getMessage(), LocalDateTime.now() );
+    public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO( webRequest.getDescription(false), HttpStatus.NOT_FOUND, exception.getMessage(), LocalDateTime.now() );
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                              .body(errorResponseDTO);
     }
 
     @ExceptionHandler(CustomerAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException exception, WebRequest webRequest){
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto( webRequest.getDescription(false), HttpStatus.BAD_REQUEST, exception.getMessage(), LocalDateTime.now() );
+    public ResponseEntity<ErrorResponseDTO> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException exception, WebRequest webRequest){
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO( webRequest.getDescription(false), HttpStatus.BAD_REQUEST, exception.getMessage(), LocalDateTime.now() );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(errorResponseDTO);
     }

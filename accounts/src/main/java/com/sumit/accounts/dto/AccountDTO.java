@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class AccountDto {
+public class AccountDTO {
 
     @NotEmpty(message = "AccountNumber can not be a null or empty")
     @Pattern(regexp="(^$|[0-9]{10})",message = "AccountNumber must be 10 digits")

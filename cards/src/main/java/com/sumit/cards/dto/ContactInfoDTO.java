@@ -10,7 +10,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "cards")
 @Getter
 @Setter
-public class ContactInfoDto {
+public class ContactInfoDTO {
 
     private String message;
     private Map<String, String> contactDetails;

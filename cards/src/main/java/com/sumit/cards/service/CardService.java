@@ -1,7 +1,7 @@
 package com.sumit.cards.service;
 
 import com.sumit.cards.constants.AppConstant;
-import com.sumit.cards.dto.CardDto;
+import com.sumit.cards.dto.CardDTO;
 import com.sumit.cards.entity.Card;
 import com.sumit.cards.exception.CardAlreadyExistsException;
 import com.sumit.cards.exception.ResourceNotFoundException;
@@ -41,16 +41,16 @@ public class CardService {
         cardRepository.save(newCard);
     }
     
-    public CardDto fetchCard(String mobileNumber) {
+    public CardDTO fetchCard(String mobileNumber) {
         logger.debug("Entry CardService.fetchCard");
         Card card = cardRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
         );
         logger.debug("Exit CardService.fetchCard");
-        return CardMapper.mapToCardDto(card, new CardDto());
+        return CardMapper.mapToCardDto(card, new CardDTO());
     }
     
-    public boolean updateCard(CardDto CardDto) {
+    public boolean updateCard(CardDTO CardDto) {
         Card card = cardRepository.findByCardNumber(CardDto.getCardNumber()).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "CardNumber", CardDto.getCardNumber()));
         CardMapper.mapToCard(CardDto, card);

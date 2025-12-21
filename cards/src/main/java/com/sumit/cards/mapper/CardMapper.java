@@ -1,11 +1,11 @@
 package com.sumit.cards.mapper;
 
-import com.sumit.cards.dto.CardDto;
+import com.sumit.cards.dto.CardDTO;
 import com.sumit.cards.entity.Card;
 
 public class CardMapper {
 
-    public static CardDto mapToCardDto(Card card, CardDto cardDto) {
+    public static CardDTO mapToCardDto(Card card, CardDTO cardDto) {
         cardDto.setCardNumber(card.getCardNumber());
         cardDto.setCardType(card.getCardType());
         cardDto.setMobileNumber(card.getMobileNumber());
@@ -15,7 +15,7 @@ public class CardMapper {
         return cardDto;
     }
 
-    public static Card mapToCard(CardDto cardDto, Card card) {
+    public static Card mapToCard(CardDTO cardDto, Card card) {
         card.setCardNumber(cardDto.getCardNumber());
         card.setCardType(cardDto.getCardType());
         card.setMobileNumber(cardDto.getMobileNumber());

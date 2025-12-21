@@ -1,8 +1,8 @@
 package com.sumit.accounts.controller;
 
-import com.sumit.accounts.dto.ContactInfoDto;
-import com.sumit.accounts.dto.CustomerDto;
-import com.sumit.accounts.dto.ResponseDto;
+import com.sumit.accounts.dto.ContactInfoDTO;
+import com.sumit.accounts.dto.CustomerDTO;
+import com.sumit.accounts.dto.ResponseDTO;
 import com.sumit.accounts.service.AccountService;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -33,49 +33,49 @@ public class AccountController {
     private String buildVersion;
 
     @Autowired
-    private ContactInfoDto contactInfoDto;
+    private ContactInfoDTO contactInfoDto;
 
     @Autowired
     private Environment environment;
 
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
+    public ResponseEntity<ResponseDTO> createAccount(@Valid @RequestBody CustomerDTO customerDto) {
         accountService.createAccount(customerDto);
-        ResponseDto responseDto = new ResponseDto(HttpStatus.CREATED.value(), HttpStatus.CREATED.getReasonPhrase());
+        ResponseDTO responseDto = new ResponseDTO(HttpStatus.CREATED.value(), HttpStatus.CREATED.getReasonPhrase());
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateAccountDetails(@Valid @RequestBody CustomerDto customerDto) {
+    public ResponseEntity<ResponseDTO> updateAccountDetails(@Valid @RequestBody CustomerDTO customerDto) {
         boolean isUpdated = accountService.updateAccount(customerDto);
         if(isUpdated)
             return ResponseEntity.status(HttpStatus.OK)
-                                 .body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+                                 .body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+                                 .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDto> fetchAccountDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
-        CustomerDto customerDto = accountService.fetchAccount(mobileNumber);
+    public ResponseEntity<CustomerDTO> fetchAccountDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        CustomerDTO customerDto = accountService.fetchAccount(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(customerDto);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteAccountDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDTO> deleteAccountDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         boolean isDeleted = accountService.deleteAccount(mobileNumber);
         if(isDeleted)
             return ResponseEntity.status(HttpStatus.OK)
-                                 .body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+                                 .body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+                                 .body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
     }
 
     @GetMapping("/contact-info")
-    public ResponseEntity<ContactInfoDto> getContactInfo() {
+    public ResponseEntity<ContactInfoDTO> getContactInfo() {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(contactInfoDto);
     }

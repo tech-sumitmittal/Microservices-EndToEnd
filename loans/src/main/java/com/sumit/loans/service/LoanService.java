@@ -1,7 +1,7 @@
 package com.sumit.loans.service;
 
 import com.sumit.loans.constants.AppConstant;
-import com.sumit.loans.dto.LoanDto;
+import com.sumit.loans.dto.LoanDTO;
 import com.sumit.loans.entity.Loan;
 import com.sumit.loans.exception.LoanAlreadyExistsException;
 import com.sumit.loans.exception.ResourceNotFoundException;
@@ -39,16 +39,16 @@ public class LoanService {
         loanRepository.save(newLoan);
     }
 
-    public LoanDto fetchLoan(String mobileNumber) {
+    public LoanDTO fetchLoan(String mobileNumber) {
         logger.debug("Entry LoanService.fetchLoan");
         Loan loan = loanRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Loan", "mobileNumber", mobileNumber)
         );
         logger.debug("Exit LoanService.fetchLoan");
-        return LoanMapper.mapToLoanDto(loan, new LoanDto());
+        return LoanMapper.mapToLoanDto(loan, new LoanDTO());
     }
 
-    public boolean updateLoan(com.sumit.loans.dto.LoanDto loanDto) {
+    public boolean updateLoan(LoanDTO loanDto) {
         Loan loan = loanRepository.findByLoanNumber(loanDto.getLoanNumber()).orElseThrow(
                 () -> new ResourceNotFoundException("Loan", "LoanNumber", loanDto.getLoanNumber()));
         LoanMapper.mapToLoan(loanDto, loan);

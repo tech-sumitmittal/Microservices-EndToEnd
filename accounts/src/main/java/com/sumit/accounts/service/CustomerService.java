@@ -1,9 +1,9 @@
 package com.sumit.accounts.service;
 
-import com.sumit.accounts.dto.AccountDto;
-import com.sumit.accounts.dto.CardDto;
-import com.sumit.accounts.dto.CustomerDetailDto;
-import com.sumit.accounts.dto.LoanDto;
+import com.sumit.accounts.dto.AccountDTO;
+import com.sumit.accounts.dto.CardDTO;
+import com.sumit.accounts.dto.CustomerDetailDTO;
+import com.sumit.accounts.dto.LoanDTO;
 import com.sumit.accounts.entity.Account;
 import com.sumit.accounts.entity.Customer;
 import com.sumit.accounts.exception.ResourceNotFoundException;
@@ -31,7 +31,7 @@ public class CustomerService {
     private LoanFeignClient loanFeignClient;
 
 
-    public CustomerDetailDto fetchCustomerDetails(String traceId, String mobileNumber) {
+    public CustomerDetailDTO fetchCustomerDetails(String traceId, String mobileNumber) {
         //logger.debug("trace-id : {}", traceId);
         logger.debug("Entry CustomerService.fetchCustomerDetails");
 
@@ -43,16 +43,16 @@ public class CustomerService {
                 () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
         );
 
-        CustomerDetailDto customerDetailDto = CustomerMapper.mapToCustomerDetailDto(customer, new CustomerDetailDto());
-        customerDetailDto.setAccountDto(AccountMapper.mapToAccountDTO(account, new AccountDto()));
+        CustomerDetailDTO customerDetailDto = CustomerMapper.mapToCustomerDetailDto(customer, new CustomerDetailDTO());
+        customerDetailDto.setAccountDto(AccountMapper.mapToAccountDTO(account, new AccountDTO()));
 
         // Card information from
-        ResponseEntity<CardDto> cardDtoResponseEntity = cardFeignClient.fetchCardDetails(traceId, mobileNumber);
+        ResponseEntity<CardDTO> cardDtoResponseEntity = cardFeignClient.fetchCardDetails(traceId, mobileNumber);
         if(cardDtoResponseEntity != null)
             customerDetailDto.setCardDto(cardDtoResponseEntity.getBody());
 
         // Loan information
-        ResponseEntity<LoanDto> loanDtoResponseEntity = loanFeignClient.fetchLoanDetails(traceId, mobileNumber);
+        ResponseEntity<LoanDTO> loanDtoResponseEntity = loanFeignClient.fetchLoanDetails(traceId, mobileNumber);
         if(loanDtoResponseEntity != null)
             customerDetailDto.setLoanDto(loanDtoResponseEntity.getBody());
 

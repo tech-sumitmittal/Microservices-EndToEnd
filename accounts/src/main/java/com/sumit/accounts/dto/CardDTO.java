@@ -1,13 +1,13 @@
-package com.sumit.cards.dto;
+package com.sumit.accounts.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.*;
+import lombok.Data;
 
 @Data
-public class CardDto {
+public class CardDTO {
 
     @NotEmpty(message = "Mobile Number can not be a null or empty")
     @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile Number must be 10 digits")

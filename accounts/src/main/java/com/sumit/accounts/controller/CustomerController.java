@@ -1,6 +1,6 @@
 package com.sumit.accounts.controller;
 
-import com.sumit.accounts.dto.CustomerDetailDto;
+import com.sumit.accounts.dto.CustomerDetailDTO;
 import com.sumit.accounts.service.CustomerService;
 import jakarta.validation.constraints.Pattern;
 import org.apache.http.HttpStatus;
@@ -22,12 +22,12 @@ public class CustomerController {
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDetailDto> fetchCustomerDetails(
+    public ResponseEntity<CustomerDetailDTO> fetchCustomerDetails(
             @RequestHeader("sumitbank-trace-id") String traceId,
             @RequestParam @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") String mobileNumber) {
         //logger.debug("trace-id : {}", traceId);
         logger.debug("Entry CustomerController.fetchCustomerDetails");
-        CustomerDetailDto customerDetailsDto = customerService.fetchCustomerDetails(traceId, mobileNumber);
+        CustomerDetailDTO customerDetailsDto = customerService.fetchCustomerDetails(traceId, mobileNumber);
         logger.debug("Exit CustomerController.fetchCustomerDetails");
         return ResponseEntity.status(HttpStatus.SC_OK).body(customerDetailsDto);
     }

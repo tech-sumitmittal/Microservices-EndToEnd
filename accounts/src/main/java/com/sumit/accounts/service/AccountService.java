@@ -1,9 +1,9 @@
 package com.sumit.accounts.service;
 
 import com.sumit.accounts.constant.AppConstant;
-import com.sumit.accounts.dto.AccountDto;
-import com.sumit.accounts.dto.AccountMessageDto;
-import com.sumit.accounts.dto.CustomerDto;
+import com.sumit.accounts.dto.AccountDTO;
+import com.sumit.accounts.dto.AccountMessageDTO;
+import com.sumit.accounts.dto.CustomerDTO;
 import com.sumit.accounts.entity.Account;
 import com.sumit.accounts.entity.Customer;
 import com.sumit.accounts.exception.CustomerAlreadyExistsException;
@@ -37,7 +37,7 @@ public class AccountService {
     private StreamBridge streamBridge;
 
 
-    public void createAccount(CustomerDto customerDto) {
+    public void createAccount(CustomerDTO customerDto) {
         // check if any customer exists with same mobile no
         Optional<Customer> dbCustomer = customerRepository.findByMobileNumber(customerDto.getMobileNumber());
         if(dbCustomer.isPresent())
@@ -63,28 +63,28 @@ public class AccountService {
     }
 
     private void sendCommunication(Account account, Customer customer) {
-        var accountsMsgDto = new AccountMessageDto(account.getAccountNumber(), customer.getName(), customer.getEmail(), customer.getMobileNumber());
+        var accountsMsgDto = new AccountMessageDTO(account.getAccountNumber(), customer.getName(), customer.getEmail(), customer.getMobileNumber());
 
         log.info("Sending Communication request for the details: {}", accountsMsgDto);
         var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
         log.info("Is the Communication request successfully triggered ? : {}", result);
     }
 
-    public CustomerDto fetchAccount(String mobileNumber) {
+    public CustomerDTO fetchAccount(String mobileNumber) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
         );
         Account account = accountRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
                 () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
         );
-        CustomerDto customerDto = CustomerMapper.mapToCustomerDTO(customer, new CustomerDto());
-        customerDto.setAccountDto(AccountMapper.mapToAccountDTO(account, new AccountDto()));
+        CustomerDTO customerDto = CustomerMapper.mapToCustomerDTO(customer, new CustomerDTO());
+        customerDto.setAccountDto(AccountMapper.mapToAccountDTO(account, new AccountDTO()));
         return customerDto;
     }
 
-    public boolean updateAccount(@Valid CustomerDto customerDto) {
+    public boolean updateAccount(@Valid CustomerDTO customerDto) {
         boolean isUpdated = false;
-        AccountDto accountDto = customerDto.getAccountDto();
+        AccountDTO accountDto = customerDto.getAccountDto();
         if(accountDto !=null ){
 
             // update account details in DB

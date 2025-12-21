@@ -1,8 +1,8 @@
 package com.sumit.cards.controller;
 
-import com.sumit.cards.dto.CardDto;
-import com.sumit.cards.dto.ContactInfoDto;
-import com.sumit.cards.dto.ResponseDto;
+import com.sumit.cards.dto.CardDTO;
+import com.sumit.cards.dto.ContactInfoDTO;
+import com.sumit.cards.dto.ResponseDTO;
 import com.sumit.cards.service.CardService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -30,42 +30,42 @@ public class CardController {
     private String buildVersion;
 
     @Autowired
-    private ContactInfoDto contactInfoDto;
+    private ContactInfoDTO contactInfoDto;
 
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createCard(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDTO> createCard(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         cardService.createCard(mobileNumber);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
     }
     
     @GetMapping("/fetch")
-    public ResponseEntity<CardDto> fetchCardDetails(
+    public ResponseEntity<CardDTO> fetchCardDetails(
             @RequestHeader("sumitbank-trace-id") String traceId,
             @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         //logger.debug("trace-id : {}", traceId);
         logger.debug("Entry CardController.fetchCardDetails");
-        CardDto cardDto = cardService.fetchCard(mobileNumber);
+        CardDTO cardDto = cardService.fetchCard(mobileNumber);
         logger.debug("Exit CardController.fetchCardDetails");
         return ResponseEntity.status(HttpStatus.OK).body(cardDto);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateCardDetails(@Valid @RequestBody CardDto cardDto) {
+    public ResponseEntity<ResponseDTO> updateCardDetails(@Valid @RequestBody CardDTO cardDto) {
         boolean isUpdated = cardService.updateCard(cardDto);
         if(isUpdated)
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(HttpStatus.EXPECTATION_FAILED.value(), HttpStatus.EXPECTATION_FAILED.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDTO(HttpStatus.EXPECTATION_FAILED.value(), HttpStatus.EXPECTATION_FAILED.getReasonPhrase()));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteCardDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDTO> deleteCardDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         boolean isDeleted = cardService.deleteCard(mobileNumber);
         if(isDeleted)
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(HttpStatus.EXPECTATION_FAILED.value(), HttpStatus.EXPECTATION_FAILED.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDTO(HttpStatus.EXPECTATION_FAILED.value(), HttpStatus.EXPECTATION_FAILED.getReasonPhrase()));
     }
 
     @GetMapping("/build-info")
@@ -75,7 +75,7 @@ public class CardController {
     }
 
     @GetMapping("/contact-info")
-    public ResponseEntity<ContactInfoDto> getContactInfo() {
+    public ResponseEntity<ContactInfoDTO> getContactInfo() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(contactInfoDto);
     }

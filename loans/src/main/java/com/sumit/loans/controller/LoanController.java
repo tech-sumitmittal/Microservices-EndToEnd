@@ -1,8 +1,8 @@
 package com.sumit.loans.controller;
 
-import com.sumit.loans.dto.ContactInfoDto;
-import com.sumit.loans.dto.LoanDto;
-import com.sumit.loans.dto.ResponseDto;
+import com.sumit.loans.dto.ContactInfoDTO;
+import com.sumit.loans.dto.LoanDTO;
+import com.sumit.loans.dto.ResponseDTO;
 import com.sumit.loans.service.LoanService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -30,42 +30,42 @@ public class LoanController {
     private String buildVersion;
 
     @Autowired
-    private ContactInfoDto contactInfoDto;
+    private ContactInfoDTO contactInfoDto;
 
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createLoan(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDTO> createLoan(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         loanService.createLoan(mobileNumber);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<LoanDto> fetchLoanDetails(
+    public ResponseEntity<LoanDTO> fetchLoanDetails(
             @RequestHeader("sumitbank-trace-id") String traceId,
             @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         //logger.debug("trace-id : {}", traceId);
         logger.debug("Entry LoanController.fetchLoanDetails");
-        LoanDto loanDto = loanService.fetchLoan(mobileNumber);
+        LoanDTO loanDto = loanService.fetchLoan(mobileNumber);
         logger.debug("Exit LoanController.fetchLoanDetails");
         return ResponseEntity.status(HttpStatus.OK).body(loanDto);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateLoanDetails(@Valid @RequestBody LoanDto loanDto) {
+    public ResponseEntity<ResponseDTO> updateLoanDetails(@Valid @RequestBody LoanDTO loanDto) {
         boolean isUpdated = loanService.updateLoan(loanDto);
         if(isUpdated)
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteLoanDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDTO> deleteLoanDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         boolean isDeleted = loanService.deleteLoan(mobileNumber);
         if(isDeleted)
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
     }
 
     @GetMapping("/build-info")
@@ -75,7 +75,7 @@ public class LoanController {
     }
 
     @GetMapping("/contact-info")
-    public ResponseEntity<ContactInfoDto> getContactInfo() {
+    public ResponseEntity<ContactInfoDTO> getContactInfo() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(contactInfoDto);
     }

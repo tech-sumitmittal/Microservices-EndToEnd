@@ -1,15 +1,16 @@
-package com.sumit.accounts.dto;
+package com.sumit.loans.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import java.util.List;
 import java.util.Map;
 
-@ConfigurationProperties(prefix = "accounts")
+@ConfigurationProperties(prefix = "loans")
 @Getter
 @Setter
-public class ContactInfoDto {
+public class ContactInfoDTO {
 
     private String message;
     private Map<String, String> contactDetails;

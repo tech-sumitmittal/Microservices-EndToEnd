@@ -1,13 +1,13 @@
-package com.sumit.loans.dto;
+package com.sumit.cards.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResponseDto {
+public class ResponseDTO {
 
     private int statusCode;
     private String statusMsg;
-
+    
 }

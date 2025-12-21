@@ -1,6 +1,6 @@
 package com.sumit.accounts.service.feignClient;
 
-import com.sumit.accounts.dto.LoanDto;
+import com.sumit.accounts.dto.LoanDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface LoanFeignClient {
 
     @GetMapping(value = "/api/v1/fetch",consumes = "application/json")
-    ResponseEntity<LoanDto> fetchLoanDetails(@RequestHeader("sumitbank-trace-id") String traceId, @RequestParam String mobileNumber);
+    ResponseEntity<LoanDTO> fetchLoanDetails(@RequestHeader("sumitbank-trace-id") String traceId, @RequestParam String mobileNumber);
 
 }
