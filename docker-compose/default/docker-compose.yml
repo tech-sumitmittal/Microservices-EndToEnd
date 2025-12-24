@@ -375,6 +375,7 @@ services:
     build:
       context: ../../configserver   # root folder where configserver folder exist
       dockerfile: Dockerfile
+    #image: "sumitbank/configserver:1.0"
     container_name: configserver-ms
     ports:
       - "8888:8888"
@@ -400,6 +401,7 @@ services:
     build:
       context: ../../eurekaserver   # root folder where eurekaserver folder exist
       dockerfile: Dockerfile
+    #image: "sumitbank/eurekaserver:1.0"
     container_name: eurekaserver-ms
     ports:
       - "8761:8761"
@@ -426,6 +428,7 @@ services:
     build:
       context: ../../accounts   # root folder where accounts folder exist
       dockerfile: Dockerfile
+    #image: "sumitbank/accounts:1.0"
     container_name: accounts-ms
     #ports:
     #  - "8080:8080"
@@ -457,6 +460,7 @@ services:
     build:
       context: ../../cards   # root folder where cards folder exist
       dockerfile: Dockerfile
+    #image: "sumitbank/cards:1.0"
     container_name: cards-ms
     #ports:
     #  - "8081:8081"
@@ -485,6 +489,7 @@ services:
     build:
       context: ../../loans   # root folder where loans folder exist
       dockerfile: Dockerfile
+    #image: "sumitbank/loans:1.0"
     container_name: loans-ms
     #ports:
     #  - "8082:8082"
@@ -516,6 +521,7 @@ services:
     build:
       context: ../../message   # root folder where cards folder exist
       dockerfile: Dockerfile
+    #image: "sumitbank/message:1.0"
     container_name: message-ms
     depends_on:
       #rabbit:
@@ -537,6 +543,7 @@ services:
     build:
       context: ../../gatewayserver   # root folder where gatewayserver folder exist
       dockerfile: Dockerfile
+    #image: "sumitbank/gatewayserver:1.0"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"

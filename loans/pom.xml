@@ -193,6 +193,17 @@
                     </to>
                 </configuration>
             </plugin>
+            <!-- For GoogleJib        (command to create docker image : mvn compile jib:dockerBuild) -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <to>
+                        <image>sumitmittal2022/loans:1.0</image>
+                    </to>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
