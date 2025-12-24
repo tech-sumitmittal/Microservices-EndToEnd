@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment                                  # Defines a Deployment (to manage the ReplicaSets)
+metadata:
+  name: gatewayserver-deployment                  # Name of the Deployment
+  labels:
+    app: gatewayserver                            # Deployment label (for identification)
+spec:
+  replicas: 1                                     # Desired number of Pods
+  selector:
+    matchLabels:
+      app: gatewayserver                          # Deployment selector, used by deployment to find the pods where app=gateway. Deployment says: I will manage ONLY Pods whose label is app=gateway
+  template:
+    metadata:
+      labels:
+        app: gatewayserver                        # Pod label (used by Deployment (via ReplicaSet) to find Pods)
+    spec:
+      containers:
+      - name: gatewayserver                       # Container name inside the Pod
+        image: sumitmittal2022/gatewayserver:1.0  # Docker image of gateway server MS
+        ports:
+        - containerPort: 8072                     # container will start internally on this port (should be same as target port of service)
+        env:
+        - name: SPRING_APPLICATION_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: GATEWAY_APPLICATION_NAME
+        - name: SPRING_PROFILES_ACTIVE
+          valueFrom: 
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_PROFILES_ACTIVE
+        - name: SPRING_CONFIG_IMPORT
+          valueFrom: 
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_CONFIG_IMPORT
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          valueFrom: 
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+        - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI
+          valueFrom: 
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI
+---
+apiVersion: v1
+kind: Service                                     # Defines a Service (to provide network access to our Pods)
+metadata:
+  name: gatewayserver                             # Service name (DNS: gatewayserver)
+spec:
+  selector:
+    app: gatewayserver                            # service label (Selects Pods with this label)
+  type: LoadBalancer                              # Exposes service outside the cluster
+  ports:
+    - protocol: TCP
+      port: 8072                                  # k8s pod will be exposed to outside world on this port
+      targetPort: 8072                            # k8s pod/container will start on this port

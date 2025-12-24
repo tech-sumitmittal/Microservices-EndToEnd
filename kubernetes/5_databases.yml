@@ -1,0 +1,150 @@
+##########################################################################
+# Accounts DB
+##########################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accountsdb
+  labels:
+    app: accountsdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accountsdb
+  template:
+    metadata:
+      labels:
+        app: accountsdb
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "accountsdb"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          emptyDir: {}   # ephemeral storage, replace with PVC in production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accountsdb
+spec:
+  selector:
+    app: accountsdb
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30306
+
+
+##########################################################################
+# Cards DB
+##########################################################################
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cardsdb
+  labels:
+    app: cardsdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cardsdb
+  template:
+    metadata:
+      labels:
+        app: cardsdb
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "cardsdb"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          emptyDir: {}   # ephemeral storage, replace with PVC in production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cardsdb
+spec:
+  selector:
+    app: cardsdb
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30307
+
+
+##########################################################################
+# Loans DB
+##########################################################################
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loansdb
+  labels:
+    app: loansdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loansdb
+  template:
+    metadata:
+      labels:
+        app: loansdb
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "loansdb"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          emptyDir: {}   # ephemeral storage, replace with PVC in production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loansdb
+spec:
+  selector:
+    app: loansdb
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30308

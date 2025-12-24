@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment                  # Defines a Deployment (to manage the ReplicaSets)
+metadata:
+  name: keycloak-deployment       # Name of the Deployment
+  labels:
+    app: keycloak                 # Deployment label (for identification)
+spec:
+  replicas: 1                     # Desired number of Pods
+  selector:
+    matchLabels:
+      app: keycloak               # Deployment selector, used by deployment to find the pods where app=keycloak. Deployment says: I will manage ONLY Pods whose label is app=keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak             # Pod label (used by Deployment (via ReplicaSet) to find Pods)
+    spec:
+      containers:
+        - name: keycloak          # Container name inside the Pod
+          image: quay.io/keycloak/keycloak:26.4.7     # Docker image of keycloak
+          args: ["start-dev"]
+          env:
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: KC_BOOTSTRAP_ADMIN_USERNAME
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: KC_BOOTSTRAP_ADMIN_PASSWORD
+          ports:
+            - name: http
+              containerPort: 8080 # container will start internally on this port (should be same as target port of service)
+---
+apiVersion: v1
+kind: Service                     # Defines a Service (to provide network access to our Pods)
+metadata:
+  name: keycloak                  # Service name (DNS: keycloak)
+  labels:
+    app: keycloak
+spec:
+  selector:
+    app: keycloak                 # service label (Selects Pods with this label)
+  type: LoadBalancer              # Exposes service outside the cluster
+  ports:
+    - name: http
+      port: 7080                  # k8s pod will be exposed to outside world on this port
+      targetPort: 8080            # k8s pod/container will start on this port

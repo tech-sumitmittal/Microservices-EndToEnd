@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment                        # Defines a Deployment (to manage the ReplicaSets)
+metadata:
+  name: eurekaserver-deployment         # Name of the Deployment
+  labels:
+    app: eurekaserver                   # Deployment label (for identification)
+spec:
+  replicas: 1                           # Desired number of Pods
+  selector:
+    matchLabels:
+      app: eurekaserver                 # Deployment selector, used by deployment to find the pods where app=eurekaserver. Deployment says: I will manage ONLY Pods whose label is app=eurekaserver
+  template:
+    metadata:
+      labels:
+        app: eurekaserver               # Pod label (used by Deployment (via ReplicaSet) to find Pods)
+    spec:
+      containers:
+      - name: eurekaserver              # Container name inside the Pod
+        image: sumitmittal2022/eurekaserver:1.0     # Docker image of Eurekaserver
+        ports:
+        - containerPort: 8761           # container will start internally on this port (should be same as target port of service)
+        env:
+        - name: SPRING_APPLICATION_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: EUREKA_APPLICATION_NAME
+        - name: SPRING_CONFIG_IMPORT
+          valueFrom: 
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_CONFIG_IMPORT
+---
+apiVersion: v1
+kind: Service                         # Defines a Service (to provide network access to our Pods)
+metadata:
+  name: eurekaserver                  # Service name (DNS: eurekaserver)
+spec:
+  selector:
+    app: eurekaserver                 # service label (Selects Pods with this label)
+  type: LoadBalancer                  # Exposes service outside the cluster
+  ports:
+    - protocol: TCP
+      port: 8761                      # k8s pod will be exposed to outside world on this port
+      targetPort: 8761                # k8s pod/container will start on this port
