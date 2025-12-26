@@ -19,12 +19,18 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql:latest
+          image: mysql:8.0
           env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: "root"
             - name: MYSQL_DATABASE
-              value: "accountsdb"
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: MYSQL_ACCOUNTS_DATABASE_NAME
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: MYSQL_ACCOUNTS_DATABASE_PASSWORD
           ports:
             - containerPort: 3306
           volumeMounts:
@@ -70,12 +76,18 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql:latest
+          image: mysql:8.0
           env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: "root"
             - name: MYSQL_DATABASE
-              value: "cardsdb"
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: MYSQL_CARDS_DATABASE_NAME
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: MYSQL_CARDS_DATABASE_PASSWORD
           ports:
             - containerPort: 3306
           volumeMounts:
@@ -121,12 +133,18 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql:latest
+          image: mysql:8.0
           env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: "root"
             - name: MYSQL_DATABASE
-              value: "loansdb"
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: MYSQL_LOANS_DATABASE_NAME
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: MYSQL_LOANS_DATABASE_PASSWORD
           ports:
             - containerPort: 3306
           volumeMounts:

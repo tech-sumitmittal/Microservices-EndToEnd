@@ -49,23 +49,52 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: sumitbank-configmap
-                  key: SPRING_ACCOUNTS_DATASOURCE_URL
+                  key: MYSQL_ACCOUNTS_DATABASE_URL
 
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: sumitbank-configmap
-                  key: SPRING_ACCOUNTS_DATASOURCE_USERNAME
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: MYSQL_ACCOUNTS_DATABASE_USERNAME
 
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: MYSQL_ACCOUNTS_DATABASE_PASSWORD
+
+            # RabbitMQ (Spring Cloud Bus)
+            - name: SPRING_RABBITMQ_HOST
+              valueFrom:
                 configMapKeyRef:
                   name: sumitbank-configmap
-                  key: SPRING_ACCOUNTS_DATASOURCE_PASSWORD
+                  key: RABBITMQ_HOST
 
-            # ✅ Prevent startup failure if DB is slow
-            - name: SPRING_SQL_INIT_MODE
-              value: "never"
+            - name: SPRING_RABBITMQ_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: RABBITMQ_PORT
+
+            - name: SPRING_RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: RABBITMQ_USERNAME
+
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: RABBITMQ_PASSWORD
+
+            # Kafka (Event publishing)
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+
 ---
 apiVersion: v1
 kind: Service                                     # Defines a Service (to provide network access to our Pods)

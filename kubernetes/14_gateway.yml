@@ -20,31 +20,87 @@ spec:
         ports:
         - containerPort: 8072                     # container will start internally on this port (should be same as target port of service)
         env:
+
         - name: SPRING_APPLICATION_NAME
           valueFrom:
             configMapKeyRef:
               name: sumitbank-configmap
               key: GATEWAY_APPLICATION_NAME
+
         - name: SPRING_PROFILES_ACTIVE
           valueFrom: 
             configMapKeyRef:
               name: sumitbank-configmap
               key: SPRING_PROFILES_ACTIVE
+
         - name: SPRING_CONFIG_IMPORT
           valueFrom: 
             configMapKeyRef:
               name: sumitbank-configmap
               key: SPRING_CONFIG_IMPORT
+
         - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           valueFrom: 
             configMapKeyRef:
               name: sumitbank-configmap
               key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+
         - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI
           valueFrom: 
             configMapKeyRef:
               name: sumitbank-configmap
               key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI
+
+        # RabbitMQ (Spring Cloud Bus for Refresh Config)
+        - name: SPRING_RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+               name: sumitbank-configmap
+               key: RABBITMQ_HOST
+
+        - name: SPRING_RABBITMQ_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: RABBITMQ_PORT
+
+        - name: SPRING_RABBITMQ_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sumitbank-secret
+              key: RABBITMQ_USERNAME
+
+        - name: SPRING_RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sumitbank-secret
+              key: RABBITMQ_PASSWORD
+
+        # Redis (Gateway Rate Limiter)
+        - name: SPRING_DATA_REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_DATA_REDIS_HOST
+
+        - name: SPRING_DATA_REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_DATA_REDIS_PORT
+
+        - name: SPRING_DATA_REDIS_CONNECT_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_DATA_REDIS_CONNECT_TIMEOUT
+
+        - name: SPRING_DATA_REDIS_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              name: sumitbank-configmap
+              key: SPRING_DATA_REDIS_TIMEOUT
+
 ---
 apiVersion: v1
 kind: Service                                     # Defines a Service (to provide network access to our Pods)

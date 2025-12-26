@@ -30,6 +30,7 @@ spec:
             configMapKeyRef:
               name: sumitbank-configmap
               key: SPRING_CONFIG_IMPORT
+
 ---
 apiVersion: v1
 kind: Service                         # Defines a Service (to provide network access to our Pods)

@@ -1,5 +1,7 @@
 package com.sumit.gatewayserver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
@@ -16,12 +18,15 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 public class GatewayserverApplication {
 
+    private static final Logger log = LoggerFactory.getLogger(GatewayserverApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayserverApplication.class, args);
 	}
 
     @Bean
     public RouteLocator sumitBankRouteConfig(RouteLocatorBuilder routeLocatorBuilder) {
+        log.info("Entry GatewayserverApplication.sumitBankRouteConfig : routeLocatorBuilder = {}", routeLocatorBuilder);
         return routeLocatorBuilder.routes()
                 .route(p -> p
                         .path("/sumitbank/accounts/**")
@@ -78,12 +83,14 @@ public class GatewayserverApplication {
 
     @Bean
     public RedisRateLimiter redisRateLimiter() {
+        log.info("Entry GatewayserverApplication.redisRateLimiter.");
         return new RedisRateLimiter( 5, 20, 1);
     }
 
     // KeyResolver : Uses client IP as key
     @Bean
     public KeyResolver ipKeyResolver() {
+        log.info("Entry GatewayserverApplication.ipKeyResolver.");
         return exchange -> Mono.just(
                 exchange.getRequest().getRemoteAddress().getAddress().getHostAddress()
         );

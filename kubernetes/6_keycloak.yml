@@ -21,17 +21,18 @@ spec:
           env:
             - name: KC_BOOTSTRAP_ADMIN_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: sumitbank-configmap
-                  key: KC_BOOTSTRAP_ADMIN_USERNAME
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: KEYCLOAK_BOOTSTRAP_ADMIN_USERNAME
             - name: KC_BOOTSTRAP_ADMIN_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: sumitbank-configmap
-                  key: KC_BOOTSTRAP_ADMIN_PASSWORD
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: KEYCLOAK_BOOTSTRAP_ADMIN_PASSWORD
           ports:
             - name: http
               containerPort: 8080 # container will start internally on this port (should be same as target port of service)
+
 ---
 apiVersion: v1
 kind: Service                     # Defines a Service (to provide network access to our Pods)

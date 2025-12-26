@@ -49,19 +49,45 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: sumitbank-configmap
-                  key: SPRING_CARDS_DATASOURCE_URL
+                  key: MYSQL_CARDS_DATABASE_URL
 
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  name: sumitbank-configmap
-                  key: SPRING_CARDS_DATASOURCE_USERNAME
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: MYSQL_CARDS_DATABASE_USERNAME
 
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: MYSQL_CARDS_DATABASE_PASSWORD
+
+            # RabbitMQ (Spring Cloud Bus)
+            - name: SPRING_RABBITMQ_HOST
+              valueFrom:
                 configMapKeyRef:
                   name: sumitbank-configmap
-                  key: SPRING_CARDS_DATASOURCE_PASSWORD
+                  key: RABBITMQ_HOST
+
+            - name: SPRING_RABBITMQ_PORT
+              valueFrom:
+                 configMapKeyRef:
+                   name: sumitbank-configmap
+                   key: RABBITMQ_PORT
+
+            - name: SPRING_RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: RABBITMQ_USERNAME
+
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: RABBITMQ_PASSWORD
+
 ---
 apiVersion: v1
 kind: Service                                  # Defines a Service (to provide network access to our Pods)

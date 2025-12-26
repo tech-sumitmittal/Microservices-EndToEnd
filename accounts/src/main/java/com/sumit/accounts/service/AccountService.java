@@ -38,6 +38,7 @@ public class AccountService {
 
 
     public void createAccount(CustomerDTO customerDto) {
+        log.info("Entry AccountService.createAccount : customerDto = {}", customerDto);
         // check if any customer exists with same mobile no
         Optional<Customer> dbCustomer = customerRepository.findByMobileNumber(customerDto.getMobileNumber());
         if(dbCustomer.isPresent())
@@ -60,14 +61,17 @@ public class AccountService {
 
         // To send communication
         sendCommunication(savedAccount, customer);
+        log.info("Exit AccountService.createAccount !!!");
     }
 
     private void sendCommunication(Account account, Customer customer) {
+        log.info("Entry AccountService.sendCommunication : account = {}, customer = {}", account, customer);
         var accountsMsgDto = new AccountMessageDTO(account.getAccountNumber(), customer.getName(), customer.getEmail(), customer.getMobileNumber());
 
         log.info("Sending Communication request for the details: {}", accountsMsgDto);
         var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
         log.info("Is the Communication request successfully triggered ? : {}", result);
+        log.info("Exit AccountService.sendCommunication !!!");
     }
 
     public CustomerDTO fetchAccount(String mobileNumber) {

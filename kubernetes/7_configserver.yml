@@ -19,6 +19,31 @@ spec:
         image: sumitmittal2022/configserver:1.0     # Docker image of Configserver
         ports:
         - containerPort: 8888     # container will start internally on this port (should be same as target port of service)
+        env:
+          - name: SPRING_RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: sumitbank-configmap
+                key: RABBITMQ_HOST
+
+          - name: SPRING_RABBITMQ_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: sumitbank-configmap
+                key: RABBITMQ_PORT
+
+          - name: SPRING_RABBITMQ_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: sumitbank-secret
+                key: RABBITMQ_USERNAME
+
+          - name: SPRING_RABBITMQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sumitbank-secret
+                key: RABBITMQ_PASSWORD
+
 ---
 apiVersion: v1
 kind: Service                     # Defines a Service (to provide network access to our Pods)

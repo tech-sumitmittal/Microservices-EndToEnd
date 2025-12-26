@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class CardController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CardController.class);
+    private static final Logger log = LoggerFactory.getLogger(CardController.class);
 
     @Autowired
     private CardService cardService;
@@ -35,7 +35,9 @@ public class CardController {
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createCard(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        log.info("Entry CardController.createCard : mobileNumber = {}", mobileNumber);
         cardService.createCard(mobileNumber);
+        log.info("Exit CardController.createCard !!!");
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
     }
     
@@ -44,15 +46,17 @@ public class CardController {
             @RequestHeader("sumitbank-trace-id") String traceId,
             @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         //logger.debug("trace-id : {}", traceId);
-        logger.debug("Entry CardController.fetchCardDetails");
+        log.info("Entry CardController.fetchCardDetails : mobileNumber = {}", mobileNumber);
         CardDTO cardDto = cardService.fetchCard(mobileNumber);
-        logger.debug("Exit CardController.fetchCardDetails");
+        log.info("Exit CardController.fetchCardDetails : cardDto = {} !!!", cardDto);
         return ResponseEntity.status(HttpStatus.OK).body(cardDto);
     }
 
     @PutMapping("/update")
     public ResponseEntity<ResponseDTO> updateCardDetails(@Valid @RequestBody CardDTO cardDto) {
+        log.info("Entry CardController.updateCardDetails : cardDto = {}", cardDto);
         boolean isUpdated = cardService.updateCard(cardDto);
+        log.info("Exit CardController.updateCardDetails : isUpdated = {} !!!", isUpdated);
         if(isUpdated)
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
@@ -61,7 +65,9 @@ public class CardController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDTO> deleteCardDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        log.info("Entry CardController.deleteCardDetails : mobileNumber = {}", mobileNumber);
         boolean isDeleted = cardService.deleteCard(mobileNumber);
+        log.info("Exit CardController.deleteCardDetails : isDeleted = {} !!!", isDeleted);
         if(isDeleted)
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
@@ -70,12 +76,14 @@ public class CardController {
 
     @GetMapping("/build-info")
     public ResponseEntity<String> getBuildInfo() {
+        log.info("Entry CardController.getBuildInfo.");
         return ResponseEntity.status(HttpStatus.OK)
                              .body(buildVersion);
     }
 
     @GetMapping("/contact-info")
     public ResponseEntity<ContactInfoDTO> getContactInfo() {
+        log.info("Entry CardController.getContactInfo.");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(contactInfoDto);
     }

@@ -127,7 +127,7 @@
                 <version>3.5.1</version>
                 <configuration>
                     <to>
-                        <image>sumitmittal2022/gatewayserver:2.0</image>
+                        <image>sumitmittal2022/gatewayserver:1.0</image>
                     </to>
                 </configuration>
             </plugin>

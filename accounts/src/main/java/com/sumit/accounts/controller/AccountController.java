@@ -41,14 +41,18 @@ public class AccountController {
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createAccount(@Valid @RequestBody CustomerDTO customerDto) {
+        log.info("Entry AccountController.createAccount : customerDto = {}", customerDto);
         accountService.createAccount(customerDto);
         ResponseDTO responseDto = new ResponseDTO(HttpStatus.CREATED.value(), HttpStatus.CREATED.getReasonPhrase());
+        log.info("Exit AccountController.createAccount : responseDto = {} !!!", responseDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/update")
     public ResponseEntity<ResponseDTO> updateAccountDetails(@Valid @RequestBody CustomerDTO customerDto) {
+        log.info("Entry AccountController.updateAccountDetails : customerDto = {}", customerDto);
         boolean isUpdated = accountService.updateAccount(customerDto);
+        log.info("Exit AccountController.updateAccountDetails : isUpdated = {} !!!", isUpdated);
         if(isUpdated)
             return ResponseEntity.status(HttpStatus.OK)
                                  .body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
@@ -59,13 +63,17 @@ public class AccountController {
 
     @GetMapping("/fetch")
     public ResponseEntity<CustomerDTO> fetchAccountDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        log.info("Entry AccountController.fetchAccountDetails : mobileNumber = {}", mobileNumber);
         CustomerDTO customerDto = accountService.fetchAccount(mobileNumber);
+        log.info("Exit AccountController.fetchAccountDetails : customerDto = {} !!!", customerDto);
         return ResponseEntity.status(HttpStatus.OK).body(customerDto);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDTO> deleteAccountDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        log.info("Entry AccountController.deleteAccountDetails : mobileNumber = {}", mobileNumber);
         boolean isDeleted = accountService.deleteAccount(mobileNumber);
+        log.info("Exit AccountController.deleteAccountDetails : isDeleted = {} !!!", isDeleted);
         if(isDeleted)
             return ResponseEntity.status(HttpStatus.OK)
                                  .body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
@@ -76,6 +84,7 @@ public class AccountController {
 
     @GetMapping("/contact-info")
     public ResponseEntity<ContactInfoDTO> getContactInfo() {
+        log.info("Entry AccountController.getContactInfo.");
         return ResponseEntity.status(HttpStatus.OK)
                              .body(contactInfoDto);
     }
@@ -84,13 +93,13 @@ public class AccountController {
     @Retry(name = "getBuildInfo",fallbackMethod = "getBuildInfoFallback")
     @GetMapping("/build-info")
     public ResponseEntity<String> getBuildInfo() {
-        log.debug("getBuildInfo() method Invoked");
+        log.info("Entry AccountController.getBuildInfo.");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(buildVersion);
     }
 
     public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
-        log.debug("getBuildInfoFallback() method Invoked");
+        log.info("Entry AccountController.getBuildInfoFallback.");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("0.9");
@@ -99,12 +108,14 @@ public class AccountController {
     @RateLimiter(name= "getJavaVersion", fallbackMethod = "getJavaVersionFallback")
     @GetMapping("/java-version")
     public ResponseEntity<String> getJavaVersion() {
+        log.info("Entry AccountController.getJavaVersion.");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(environment.getProperty("JAVA_HOME"));
     }
 
     public ResponseEntity<String> getJavaVersionFallback(Throwable throwable) {
+        log.info("Entry AccountController.getJavaVersionFallback.");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Java 21");

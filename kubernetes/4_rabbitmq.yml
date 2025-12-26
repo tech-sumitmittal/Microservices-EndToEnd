@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:4-management
+          ports:
+            - containerPort: 5672   # AMQP
+            - containerPort: 15672  # Management UI
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: RABBITMQ_USERNAME
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: sumitbank-secret
+                  key: RABBITMQ_PASSWORD
+          # Temporarily disable for local testing
+          #volumeMounts:
+          #  - name: rabbitmq-data
+          #    mountPath: /var/lib/rabbitmq
+          #readinessProbe:
+          #  exec:
+          #    command: ["rabbitmq-diagnostics", "check_port_connectivity"]
+          #  initialDelaySeconds: 40
+          #  periodSeconds: 10
+          #  timeoutSeconds: 5
+          #  successThreshold: 1
+          #  failureThreshold: 6
+          #livenessProbe:
+          #  exec:
+          #    command: ["rabbitmq-diagnostics", "status"]
+          #  initialDelaySeconds: 60   # wait for RabbitMQ to start
+          #  periodSeconds: 20
+          #  timeoutSeconds: 10        # give enough time for the command to finish
+          #  failureThreshold: 6
+      #volumes:
+      #  - name: rabbitmq-data
+      #    persistentVolumeClaim:
+      #      claimName: rabbitmq-pvc
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: rabbitmq-pvc
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit
+spec:
+  selector:
+    app: rabbitmq
+  type: ClusterIP
+  ports:
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+    - name: management
+      port: 15672
+      targetPort: 15672

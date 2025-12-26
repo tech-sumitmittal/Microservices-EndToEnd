@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class LoanController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoanController.class);
+    private static final Logger log = LoggerFactory.getLogger(LoanController.class);
 
     @Autowired
     private LoanService loanService;
@@ -35,7 +35,9 @@ public class LoanController {
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createLoan(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        log.info("Entry LoanController.createLoan : mobileNumber = {}", mobileNumber);
         loanService.createLoan(mobileNumber);
+        log.info("Exit LoanController.createLoan !!!");
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
     }
 
@@ -44,15 +46,17 @@ public class LoanController {
             @RequestHeader("sumitbank-trace-id") String traceId,
             @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
         //logger.debug("trace-id : {}", traceId);
-        logger.debug("Entry LoanController.fetchLoanDetails");
+        log.info("Entry LoanController.fetchLoanDetails : mobileNumber = {}", mobileNumber);
         LoanDTO loanDto = loanService.fetchLoan(mobileNumber);
-        logger.debug("Exit LoanController.fetchLoanDetails");
+        log.info("Exit LoanController.fetchLoanDetails, loanDto = {} !!!", loanDto);
         return ResponseEntity.status(HttpStatus.OK).body(loanDto);
     }
 
     @PutMapping("/update")
     public ResponseEntity<ResponseDTO> updateLoanDetails(@Valid @RequestBody LoanDTO loanDto) {
+        log.info("Entry LoanController.updateLoanDetails : loanDto = {}", loanDto);
         boolean isUpdated = loanService.updateLoan(loanDto);
+        log.info("Exit LoanController.updateLoanDetails, isUpdated = {} !!!", isUpdated);
         if(isUpdated)
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
@@ -61,7 +65,9 @@ public class LoanController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDTO> deleteLoanDetails(@Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") @RequestParam String mobileNumber) {
+        log.info("Entry LoanController.deleteLoanDetails : mobileNumber = {}", mobileNumber);
         boolean isDeleted = loanService.deleteLoan(mobileNumber);
+        log.info("Exit LoanController.deleteLoanDetails, isDeleted = {} !!!", isDeleted);
         if(isDeleted)
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase()));
         else
@@ -70,12 +76,14 @@ public class LoanController {
 
     @GetMapping("/build-info")
     public ResponseEntity<String> getBuildInfo() {
+        log.info("Entry LoanController.getBuildInfo.");
         return ResponseEntity.status(HttpStatus.OK)
                              .body(buildVersion);
     }
 
     @GetMapping("/contact-info")
     public ResponseEntity<ContactInfoDTO> getContactInfo() {
+        log.info("Entry LoanController.getContactInfo.");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(contactInfoDto);
     }
