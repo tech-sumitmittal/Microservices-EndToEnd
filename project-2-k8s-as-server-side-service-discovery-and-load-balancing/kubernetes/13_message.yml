@@ -41,13 +41,6 @@ spec:
                   name: sumitbank-configmap
                   key: SPRING_CONFIG_IMPORT
 
-            # Eureka discovery server
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-              valueFrom:
-                configMapKeyRef:
-                  name: sumitbank-configmap
-                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-
             # App identity / observability
             #- name: OTEL_SERVICE_NAME
             #  value: "message"

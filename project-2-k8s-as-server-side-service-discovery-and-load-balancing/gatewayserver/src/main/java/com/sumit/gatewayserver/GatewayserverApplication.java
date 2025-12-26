@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -16,6 +17,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class GatewayserverApplication {
 
     private static final Logger log = LoggerFactory.getLogger(GatewayserverApplication.class);
@@ -48,7 +50,7 @@ public class GatewayserverApplication {
                                         rl.setRateLimiter(redisRateLimiter())
                                         .setKeyResolver(ipKeyResolver()))
                         )
-                        .uri("lb://ACCOUNTS"))
+                        .uri("http://accounts:8080"))
                 .route(p -> p
                         .path("/sumitbank/cards/**")
                         .filters( f ->
@@ -61,7 +63,7 @@ public class GatewayserverApplication {
                                          .setMethods(HttpMethod.GET)
                                          .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true))
                         )
-                        .uri("lb://CARDS"))
+                        .uri("http://cards:8081"))
                 .route(p -> p
                         .path("/sumitbank/loans/**")
                         .filters( f ->
@@ -74,7 +76,7 @@ public class GatewayserverApplication {
                                         .setMethods(HttpMethod.GET)
                                         .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true))
                         )
-                        .uri("lb://LOANS"))
+                        .uri("http://loans:8082"))
                 .build();
     }
 

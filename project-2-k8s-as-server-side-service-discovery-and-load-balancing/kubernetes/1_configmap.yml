@@ -23,14 +23,6 @@ data:
   SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8888/"
   CONFIGSERVER_APPLICATION_NAME: "configserver"
 
-  # Eureka discovery server
-  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eurekaserver:8761/eureka/"
-  EUREKA_APPLICATION_NAME: "eurekaserver"
-
-  # Spring Cloud Bus
-  SPRING_CLOUD_BUS_ENABLED: "true"
-  SPRING_CLOUD_BUS_DESTINATION: "springCloudBus"
-
   # Keycloak (internal k8s service)
   SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:7080/realms/master/protocol/openid-connect/certs"
 

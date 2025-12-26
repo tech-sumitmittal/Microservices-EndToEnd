@@ -8,13 +8,18 @@ spring:
     import: "optional:configserver:http://configserver:8888/"    # this property is not required for docker-compose. But required if we want to run mvn clean install.
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: false
-          lowerCaseServiceId: true
       httpclient:
         connect-timeout: 3000
         response-timeout: 5s
+    # k8s as Discovery server and server side load balancing
+    kubernetes:
+      discovery:
+        all-namespaces: true
+        enabled: true
+        discovery-server-url: http://spring-cloud-kubernetes-discoveryserver:80/
+        health-indicator:
+          enabled: false
+
   data:
     redis:
       host: redis             #change redis to localhost, if running application from IntelliJ
