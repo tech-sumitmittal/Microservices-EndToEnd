@@ -32,10 +32,6 @@ dependencies:
     version: 0.1.0
     repository: file://../../sumitbank-microservices/configserver
     
-  - name: eurekaserver
-    version: 0.1.0
-    repository: file://../../sumitbank-microservices/eurekaserver
-  
   - name: accounts
     version: 0.1.0
     repository: file://../../sumitbank-microservices/accounts

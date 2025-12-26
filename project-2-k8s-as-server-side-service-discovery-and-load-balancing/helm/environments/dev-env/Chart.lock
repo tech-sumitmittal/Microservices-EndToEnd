@@ -1,0 +1,24 @@
+dependencies:
+- name: sumitbank-common
+  repository: file://../../sumitbank-common
+  version: 0.1.0
+- name: configserver
+  repository: file://../../sumitbank-microservices/configserver
+  version: 0.1.0
+- name: accounts
+  repository: file://../../sumitbank-microservices/accounts
+  version: 0.1.0
+- name: cards
+  repository: file://../../sumitbank-microservices/cards
+  version: 0.1.0
+- name: loans
+  repository: file://../../sumitbank-microservices/loans
+  version: 0.1.0
+- name: gatewayserver
+  repository: file://../../sumitbank-microservices/gatewayserver
+  version: 0.1.0
+- name: message
+  repository: file://../../sumitbank-microservices/message
+  version: 0.1.0
+digest: sha256:5443c21499ec5b389a6936d8cb20cfadb26149c62105e52fbfb7346cb2e79d73
+generated: "2025-12-26T13:20:37.1288913-05:00"
