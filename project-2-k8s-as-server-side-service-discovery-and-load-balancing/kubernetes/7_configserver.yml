@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment                  # Defines a Deployment (to manage the ReplicaSets)
+metadata:
+  name: configserver-deployment   # Name of the Deployment
+  labels:
+    app: configserver             # Deployment label (for identification)
+spec:
+  replicas: 1                     # Desired number of Pods
+  selector:
+    matchLabels:
+      app: configserver           # Deployment selector, used by deployment to find the pods where app=configserver. Deployment says: I will manage ONLY Pods whose label is app=configserver
+  template:
+    metadata:
+      labels:
+        app: configserver         # Pod label (used by Deployment (via ReplicaSet) to find Pods)
+    spec:
+      containers:
+      - name: configserver        # Container name inside the Pod
+        image: sumitmittal2022/configserver:1.0     # Docker image of Configserver
+        ports:
+        - containerPort: 8888     # container will start internally on this port (should be same as target port of service)
+        env:
+          - name: SPRING_RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: sumitbank-configmap
+                key: RABBITMQ_HOST
+
+          - name: SPRING_RABBITMQ_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: sumitbank-configmap
+                key: RABBITMQ_PORT
+
+          - name: SPRING_RABBITMQ_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: sumitbank-secret
+                key: RABBITMQ_USERNAME
+
+          - name: SPRING_RABBITMQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sumitbank-secret
+                key: RABBITMQ_PASSWORD
+
+---
+apiVersion: v1
+kind: Service                     # Defines a Service (to provide network access to our Pods)
+metadata:
+  name: configserver              # Service name (DNS: configserver)
+spec:
+  selector:
+    app: configserver             # service label (Selects Pods with this label)
+  type: LoadBalancer              # Exposes service outside the cluster
+  ports:
+    - protocol: TCP
+      port: 8888                  # k8s pod will be exposed to outside world on this port
+      targetPort: 8888            # k8s pod/container will start on this port

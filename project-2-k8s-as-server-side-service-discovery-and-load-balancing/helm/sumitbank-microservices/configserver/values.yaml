@@ -1,0 +1,28 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deploymentName: configserver-deployment
+serviceName: configserver
+appLabel: configserver
+appName: configserver
+
+replicaCount: 1
+
+image:
+  repository: sumitmittal2022/configserver
+  tag: 1.0
+
+containerPort: 8888
+
+service:
+  type: ClusterIP
+  port: 8888
+  targetPort: 8888
+
+appname_enabled: true
+profile_enabled: false
+config_enabled: false
+eureka_enabled: false
+resouceserver_enabled: false
+otel_enabled: true
+kafka_enabled: false

@@ -1,0 +1,46 @@
+services:
+  network-config:
+    networks:
+      - sumit-network
+
+  database-config:
+    extends:
+      service: network-config
+    image: mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 10s
+      retries: 10
+      interval: 10s
+      start_period: 10s
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+
+
+  base-config:
+    extends:
+      service: network-config
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-2.22.0.jar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+
+  eurekaserver-config:
+    extends:
+      service: base-config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
+      SPRING_CONFIG_IMPORT: optional:configserver:http://configserver:8888/      #Eureka, all MS and Gateway needs to connect with config server
+
+  microservice-config:
+    extends:
+      service: eurekaserver-config
+    environment:
+      SPRING_PROFILES_ACTIVE: qa

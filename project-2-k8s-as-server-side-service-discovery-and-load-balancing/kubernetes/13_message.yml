@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-deployment
+  labels:
+    app: message
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message
+  template:
+    metadata:
+      labels:
+        app: message
+    spec:
+      containers:
+        - name: message
+          image: sumitmittal2022/message:1.0
+          ports:
+            - containerPort: 9010
+          env:
+            # Spring profile
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: SPRING_PROFILES_ACTIVE
+
+            # Kafka (Event driven microservices)
+            - name: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
+
+            # Config Server
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: SPRING_CONFIG_IMPORT
+
+            # Eureka discovery server
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: sumitbank-configmap
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+
+            # App identity / observability
+            #- name: OTEL_SERVICE_NAME
+            #  value: "message"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: message
+spec:
+  selector:
+    app: message
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080

@@ -1,0 +1,121 @@
+server:
+  port: 8080
+
+
+spring:
+  application:
+    name: "accounts"
+  profiles:
+    active: "qa"
+  config:
+    import: "optional:configserver:http://configserver:8888/"    # this property is not required for docker-compose. But required if we want to run mvn clean install.
+  datasource:
+    url: jdbc:mysql://localhost:3306/accountsdb
+    username: root
+    password: root
+  jpa:
+    show-sql: false
+  sql:
+    init:
+      mode: always
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+    connection-timeout: 10s
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+    # for event driven microservices
+    function:
+      definition: updateCommunication
+    stream:
+      bindings:
+        sendCommunication-out-0:
+          destination: send-communication
+        updateCommunication-in-0:
+          destination: sent-communication
+          group: ${spring.application.name}
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 2
+
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 500ms
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+        ignoreExceptions:
+          - java.lang.NullPointerException
+        retryExceptions:
+          - java.util.concurrent.TimeoutException
+
+  ratelimiter:
+    configs:
+      default:
+        limitForPeriod: 10      # allow 10 calls
+        limitRefreshPeriod: 1s  # per 1 second
+        timeoutDuration: 1s     # will wait for 1 second for quota refresh
+
+
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/    #change eurekaserver to localhost, if running application from IntelliJ
+info:
+  app:
+    name: "accounts"
+    description: "Accounts Application"
+    version: "1.0.0"
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      access: unrestricted
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+
+logging:
+  level:
+    com:
+      sumit:
+        accounts: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name}, %X{trace_id}, %X{span_id}]"
