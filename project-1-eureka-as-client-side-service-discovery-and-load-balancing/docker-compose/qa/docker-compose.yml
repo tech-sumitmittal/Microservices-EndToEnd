@@ -1,5 +1,28 @@
 services:
 
+  # RabbitMQ for Refresh configs using spring cloud bus ##################################################################
+  # RabbitMQ for Event driven microservices ##############################################################################
+
+  rabbit:
+    image: rabbitmq:4-management
+    hostname: rabbitmq
+    container_name: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    extends:
+      file: common-config.yml
+      service: base-config
+
+
   # Kafka for Event driven microservices #################################################################################
 
   kafka:
@@ -35,6 +58,24 @@ services:
       service: network-config
 
 
+  # Redis for Gateway Rate Limiter #######################################################################################
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: base-config
+
+
   # Keycloak as Auth Server ##############################################################################################
 
   keycloak:
@@ -49,6 +90,245 @@ services:
     extends:
       file: common-config.yml
       service: network-config
+
+
+
+
+
+  # All Database instances ###############################################################################################
+
+  accountsdb:
+    container_name: accountsdb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: accountsdb
+    extends:
+      file: common-config.yml
+      service: database-config
+
+  cardsdb:
+    container_name: cardsdb
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: cardsdb
+    extends:
+      file: common-config.yml
+      service: database-config
+
+  loansdb:
+    container_name: loansdb
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_DATABASE: loansdb
+    extends:
+      file: common-config.yml
+      service: database-config
+
+
+  # Config server for managing configurations outside business logic #####################################################
+
+  configserver:
+    build:
+      context: ../../configserver   # root folder where configserver folder exist
+      dockerfile: Dockerfile
+    #image: "sumitbank/configserver:1.0"
+    container_name: configserver-ms
+    ports:
+      - "8888:8888"
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent configserver:8888/actuator/health/readiness | grep UP || exit 1"
+      interval: 30s
+      timeout: 20s
+      retries: 30
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: base-config
+    environment:
+      OTEL_SERVICE_NAME: "configserver"
+
+
+  # Eureka server for Service Discovery ##################################################################################
+
+  eurekaserver:
+    build:
+      context: ../../eurekaserver   # root folder where eurekaserver folder exist
+      dockerfile: Dockerfile
+    #image: "sumitbank/eurekaserver:1.0"
+    container_name: eurekaserver-ms
+    ports:
+      - "8761:8761"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent eurekaserver:8761/actuator/health/readiness | grep UP || exit 1"
+      interval: 20s
+      timeout: 10s
+      retries: 20
+      start_period: 20s
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+      OTEL_SERVICE_NAME: "eurekaserver"
+    extends:
+      file: common-config.yml
+      service: eurekaserver-config
+
+
+  # All microservices ####################################################################################################
+
+  accounts:
+    build:
+      context: ../../accounts   # root folder where accounts folder exist
+      dockerfile: Dockerfile
+    #image: "sumitbank/accounts:1.0"
+    container_name: accounts-ms
+    #ports:
+    #  - "8080:8080"         # as we do not want to expose our MS outside cluster directly, it should be accessed by gateway server of same cluster
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+      accountsdb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent accounts:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 30s
+      timeout: 20s
+      retries: 30
+      start_period: 10s
+    environment:
+      SPRING_APPLICATION_NAME: "accounts"
+      OTEL_SERVICE_NAME: "accounts"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
+    extends:
+      file: common-config.yml
+      service: microservice-config
+
+  cards:
+    build:
+      context: ../../cards   # root folder where cards folder exist
+      dockerfile: Dockerfile
+    #image: "sumitbank/cards:1.0"
+    container_name: cards-ms
+    #ports:
+    #  - "8081:8081"         # as we do not want to expose our MS outside cluster directly, it should be accessed by gateway server of same cluster
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+      cardsdb:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent cards:8081/actuator/health/readiness | grep UP || exit 1"
+      interval: 30s
+      timeout: 20s
+      retries: 30
+      start_period: 10s
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+      OTEL_SERVICE_NAME: "cards"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb"
+    extends:
+      file: common-config.yml
+      service: microservice-config
+
+  loans:
+    build:
+      context: ../../loans   # root folder where loans folder exist
+      dockerfile: Dockerfile
+    #image: "sumitbank/loans:1.0"
+    container_name: loans-ms
+    #ports:
+    #  - "8082:8082"         # as we do not want to expose our MS outside cluster directly, it should be accessed by gateway server of same cluster
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+      loansdb:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent loans:8082/actuator/health/readiness | grep UP || exit 1"
+      interval: 30s
+      timeout: 20s
+      retries: 30
+      start_period: 10s
+    environment:
+      SPRING_APPLICATION_NAME: "loans"
+      OTEL_SERVICE_NAME: "loans"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3306/loansdb"
+    extends:
+      file: common-config.yml
+      service: microservice-config
+
+
+  # Message microservice for Event Driven MicroServices ##################################################################
+
+  message:
+    build:
+      context: ../../message   # root folder where cards folder exist
+      dockerfile: Dockerfile
+    #image: "sumitbank/message:1.0"
+    container_name: message-ms
+    depends_on:
+      #rabbit:
+      #  condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      #SPRING_RABBITMQ_HOST: "rabbit"
+      OTEL_SERVICE_NAME: "message"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
+    extends:
+      file: common-config.yml
+      service: microservice-config
+
+
+  # Gateway server for single point entry & cross-cutting concerns #######################################################
+
+  gatewayserver:
+    build:
+      context: ../../gatewayserver   # root folder where gatewayserver folder exist
+      dockerfile: Dockerfile
+    #image: "sumitbank/gatewayserver:1.0"
+    container_name: gatewayserver-ms
+    ports:
+      - "8072:8072"
+    depends_on:
+      redis:
+        condition: service_healthy
+      accounts:
+        condition: service_healthy
+      cards:
+        condition: service_healthy
+      loans:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "gatewayserver"
+      OTEL_SERVICE_NAME: "gatewayserver"
+      SPRING_DATA_REDIS_CONNECT-TIMEOUT: 2s
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_TIMEOUT: 1s
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
+    extends:
+      file: common-config.yml
+      service: microservice-config
+
+
+
 
 
   # Loki (Logs Aggregator) Read component ################################################################################
@@ -232,46 +512,46 @@ services:
         cat <<EOF > /etc/nginx/nginx.conf
         user  nginx;
         worker_processes  5;  ## Default: 1
-
+        
         events {
           worker_connections   1000;
         }
-
+        
         http {
           resolver 127.0.0.11;
-
+        
           server {
             listen             3100;
-
+        
             location = / {
               return 200 'OK';
               auth_basic off;
             }
-
+        
             location = /api/prom/push {
               proxy_pass       http://write:3100\$$request_uri;
             }
-
+        
             location = /api/prom/tail {
               proxy_pass       http://read:3100\$$request_uri;
               proxy_set_header Upgrade \$$http_upgrade;
               proxy_set_header Connection "upgrade";
             }
-
+        
             location ~ /api/prom/.* {
               proxy_pass       http://read:3100\$$request_uri;
             }
-
+        
             location = /loki/api/v1/push {
               proxy_pass       http://write:3100\$$request_uri;
             }
-
+        
             location = /loki/api/v1/tail {
               proxy_pass       http://read:3100\$$request_uri;
               proxy_set_header Upgrade \$$http_upgrade;
               proxy_set_header Connection "upgrade";
             }
-
+        
             location ~ /loki/api/.* {
               proxy_pass       http://read:3100\$$request_uri;
             }
@@ -290,276 +570,6 @@ services:
       file: common-config.yml
       service: network-config
 
-
-
-
-
-
-  # All Database instances ###############################################################################################
-
-  accountsdb:
-    container_name: accountsdb
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: accountsdb
-    extends:
-      file: common-config.yml
-      service: database-config
-
-  cardsdb:
-    container_name: cardsdb
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_DATABASE: cardsdb
-    extends:
-      file: common-config.yml
-      service: database-config
-
-  loansdb:
-    container_name: loansdb
-    ports:
-      - "3308:3306"
-    environment:
-      MYSQL_DATABASE: loansdb
-    extends:
-      file: common-config.yml
-      service: database-config
-
-
-  # RabbitMQ for Refresh configs using spring cloud bus ##################################################################
-  # RabbitMQ for Event driven microservices ##############################################################################
-
-  rabbit:
-    image: rabbitmq:4-management
-    hostname: rabbitmq
-    container_name: rabbit
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
-    extends:
-      file: common-config.yml
-      service: base-config
-
-
-  # Redis for Gateway Rate Limiter #######################################################################################
-
-  redis:
-    image: redis
-    container_name: redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: base-config
-
-
-  # Config server for managing configurations outside business logic #####################################################
-
-  configserver:
-    build:
-      context: ../../configserver   # root folder where configserver folder exist
-      dockerfile: Dockerfile
-    container_name: configserver-ms
-    ports:
-      - "8888:8888"
-    depends_on:
-      rabbit:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent configserver:8888/actuator/health/readiness | grep UP || exit 1"
-      interval: 30s
-      timeout: 20s
-      retries: 30
-      start_period: 10s
-    extends:
-      file: common-config.yml
-      service: base-config
-    environment:
-      OTEL_SERVICE_NAME: "configserver"
-
-
-  # Eureka server for Service Discovery ##################################################################################
-
-  eurekaserver:
-    build:
-      context: ../../eurekaserver   # root folder where eurekaserver folder exist
-      dockerfile: Dockerfile
-    container_name: eurekaserver-ms
-    ports:
-      - "8761:8761"
-    depends_on:
-      configserver:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent eurekaserver:8761/actuator/health/readiness | grep UP || exit 1"
-      interval: 20s
-      timeout: 10s
-      retries: 20
-      start_period: 20s
-    environment:
-      SPRING_APPLICATION_NAME: "eurekaserver"
-      OTEL_SERVICE_NAME: "eurekaserver"
-    extends:
-      file: common-config.yml
-      service: eurekaserver-config
-
-
-  # All microservices ####################################################################################################
-
-  accounts:
-    build:
-      context: ../../accounts   # root folder where accounts folder exist
-      dockerfile: Dockerfile
-    container_name: accounts-ms
-    #ports:
-    #  - "8080:8080"
-    depends_on:
-      eurekaserver:
-        condition: service_healthy
-      accountsdb:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent accounts:8080/actuator/health/readiness | grep UP || exit 1"
-      interval: 30s
-      timeout: 20s
-      retries: 30
-      start_period: 10s
-    environment:
-      SPRING_APPLICATION_NAME: "accounts"
-      OTEL_SERVICE_NAME: "accounts"
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
-      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
-    extends:
-      file: common-config.yml
-      service: microservice-config
-
-  cards:
-    build:
-      context: ../../cards   # root folder where cards folder exist
-      dockerfile: Dockerfile
-    container_name: cards-ms
-    #ports:
-    #  - "8081:8081"
-    depends_on:
-      eurekaserver:
-        condition: service_healthy
-      cardsdb:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent cards:8081/actuator/health/readiness | grep UP || exit 1"
-      interval: 30s
-      timeout: 20s
-      retries: 30
-      start_period: 10s
-    environment:
-      SPRING_APPLICATION_NAME: "cards"
-      OTEL_SERVICE_NAME: "cards"
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb"
-    extends:
-      file: common-config.yml
-      service: microservice-config
-
-  loans:
-    build:
-      context: ../../loans   # root folder where loans folder exist
-      dockerfile: Dockerfile
-    container_name: loans-ms
-    #ports:
-    #  - "8082:8082"
-    depends_on:
-      eurekaserver:
-        condition: service_healthy
-      loansdb:
-        condition: service_healthy
-    healthcheck:
-      test: "curl --fail --silent loans:8082/actuator/health/readiness | grep UP || exit 1"
-      interval: 30s
-      timeout: 20s
-      retries: 30
-      start_period: 10s
-    environment:
-      SPRING_APPLICATION_NAME: "loans"
-      OTEL_SERVICE_NAME: "loans"
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3306/loansdb"
-    extends:
-      file: common-config.yml
-      service: microservice-config
-
-
-  # Message microservice for Event Driven MicroServices ##################################################################
-
-  message:
-    build:
-      context: ../../message   # root folder where cards folder exist
-      dockerfile: Dockerfile
-    container_name: message-ms
-    depends_on:
-      #rabbit:
-      #  condition: service_healthy
-      kafka:
-        condition: service_healthy
-    environment:
-      #SPRING_RABBITMQ_HOST: "rabbit"
-      OTEL_SERVICE_NAME: "message"
-      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
-    extends:
-      file: common-config.yml
-      service: microservice-config
-
-
-  # Gateway server for single point entry & cross-cutting concerns #######################################################
-
-  gatewayserver:
-    build:
-      context: ../../gatewayserver   # root folder where gatewayserver folder exist
-      dockerfile: Dockerfile
-    container_name: gatewayserver-ms
-    ports:
-      - "8072:8072"
-    depends_on:
-      redis:
-        condition: service_healthy
-      accounts:
-        condition: service_healthy
-      cards:
-        condition: service_healthy
-      loans:
-        condition: service_healthy
-    environment:
-      SPRING_APPLICATION_NAME: "gatewayserver"
-      OTEL_SERVICE_NAME: "gatewayserver"
-      SPRING_DATA_REDIS_CONNECT-TIMEOUT: 2s
-      SPRING_DATA_REDIS_HOST: redis
-      SPRING_DATA_REDIS_PORT: 6379
-      SPRING_DATA_REDIS_TIMEOUT: 1s
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
-    extends:
-      file: common-config.yml
-      service: microservice-config
 
 
 networks:

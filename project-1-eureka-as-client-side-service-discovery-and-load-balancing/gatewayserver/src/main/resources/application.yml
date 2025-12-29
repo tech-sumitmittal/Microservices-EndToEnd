@@ -5,7 +5,7 @@ spring:
   application:
     name: "gatewayserver"
   config:
-    import: "optional:configserver:http://configserver:8888/"    # this property is not required for docker-compose. But required if we want to run mvn clean install.
+    import: "optional:configserver:http://localhost:8888/"                                      #change localhost to configserver
   cloud:
     gateway:
       discovery:
@@ -17,7 +17,7 @@ spring:
         response-timeout: 5s
   data:
     redis:
-      host: redis             #change redis to localhost, if running application from IntelliJ
+      host: localhost                                                                           #change localhost to redis
       port: 6379
       connect-timeout: 3s
       timeout: 5s
@@ -25,7 +25,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"    # to download public certificate from keycloak
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"      #to download public certificate from keycloak
 
 
 resilience4j:
