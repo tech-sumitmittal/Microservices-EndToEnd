@@ -52,6 +52,8 @@ configserver/.mvn/wrapper/maven-wrapper.properties
 configserver/mvnw
 configserver/mvnw.cmd
 
+
+# Ignore all runtime data
 docker-compose/default/.data/
 docker-compose/qa/.data/
 docker-compose/prod/.data/

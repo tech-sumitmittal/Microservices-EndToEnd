@@ -45,15 +45,15 @@
             <artifactId>spring-cloud-stream</artifactId>
         </dependency>
         <!-- Bind Spring Cloud Stream with RabbitMQ (enables RabbitMQ as message broker) -->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-stream-binder-rabbit</artifactId>-->
-        <!--</dependency>-->
-        <!-- Bind Spring Cloud Stream with Kafka (enables Kafka as message broker) -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>
+        <!-- Bind Spring Cloud Stream with Kafka (enables Kafka as message broker) -->
+        <!--<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+        </dependency>-->
 
         <!-- Testing -->
         <dependency>

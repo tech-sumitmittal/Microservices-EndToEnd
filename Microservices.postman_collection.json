@@ -1,0 +1,1985 @@
+{
+	"info": {
+		"_postman_id": "173f033e-8cf5-40dc-a4c2-f191a00800cc",
+		"name": "Microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43785271",
+		"_collection_link": "https://sumitmittal-7541663.postman.co/workspace/Sumit-Mittal's-Workspace~4b525d04-b28b-4f2a-85d7-aaa41d45e492/collection/43785271-173f033e-8cf5-40dc-a4c2-f191a00800cc?action=share&source=collection_link&creator=43785271"
+	},
+	"item": [
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "CreateAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sumit 101\",\n    \"email\": \"sumit101@learning.com\",\n    \"mobileNumber\": \"9990550996\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchAccountDetails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateAccountDetails",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sumit 102\",\n    \"email\": \"sumit101@learning.com\",\n    \"mobileNumber\": \"9990550996\",\n    \"accountsDto\": {\n        \"accountNumber\": 1792001587,\n        \"accountType\": \"Saving\",\n        \"branchAddress\": \"124 Main Street, New York\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/account/v1/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"v1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAccountDetails",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/account/v1/delete?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"v1",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshConfig",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/actuator/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BusRefresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator/busrefresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"busrefresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "contact-info",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/api/v1/contact-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"api",
+								"v1",
+								"contact-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "java-version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/java-version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"java-version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "build-info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/build-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"build-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ShutDown",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator/shutdown",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"shutdown"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchCustomerDetails",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "eazybank-correlation-id",
+								"value": "43gtrt-trtrrtgf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cards",
+			"item": [
+				{
+					"name": "CreateCard",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/create?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchCardDetails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCardDetails",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobileNumber\": \"9990550996\",\n    \"cardNumber\": \"100780588873\",\n    \"cardType\": \"Credit Card\",\n    \"totalLimit\": 100000,\n    \"amountUsed\": 0,\n    \"availableAmount\": 100000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/card/v1/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"card",
+								"v1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCardDetails",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/card/v1/delete?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"card",
+								"v1",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "build-info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/api/build-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"build-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "java-version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/api/java-version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"api",
+								"java-version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "contact-info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/contact-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"contact-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshConfig",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/actuator/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"actuator",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ShutDown",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/actuator/shutdown",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"actuator",
+								"shutdown"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "loans",
+			"item": [
+				{
+					"name": "CreateLoan",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/create?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchLoanDetails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/api/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateLoanDetails",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobileNumber\": \"9990550996\",\n    \"loanNumber\": \"100068045874\",\n    \"loanType\": \"Bike Loan\",\n    \"totalLoan\": 100000,\n    \"amountPaid\": 0,\n    \"outstandingAmount\": 100000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/loan/v1/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"loan",
+								"v1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteLoanDetails",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/loan/v1/delete?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"loan",
+								"v1",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "build-info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/loan/v1/build-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"loan",
+								"v1",
+								"build-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "java-version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/loan/v1/java-version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"loan",
+								"v1",
+								"java-version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "contact-info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/loan/v1/contact-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"loan",
+								"v1",
+								"contact-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RefreshConfig",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/actuator/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"actuator",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ShutDown",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/actuator/shutdown",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"actuator",
+								"shutdown"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "configserver",
+			"item": [
+				{
+					"name": "encrypt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "aishwarya@eazybank.com",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8071/encrypt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8071",
+							"path": [
+								"encrypt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "decrypt",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "f83ac5a34ba5f4657ae8e863c063c1b69efb4d23d0c431eb134f8d1b3ed0823dee0a4b627d091455b4c6600353a3682c"
+						},
+						"url": {
+							"raw": "http://localhost:8071/decrypt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8071",
+							"path": [
+								"decrypt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account default",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/accounts/default\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"accounts",
+								"default\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account prod",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/accounts/prod\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"accounts",
+								"prod\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "card prod",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/cards/prod\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"cards",
+								"prod\n"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "eurekaserver",
+			"item": [
+				{
+					"name": "eureka_apps",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8761/eureka/apps/cards",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8761",
+							"path": [
+								"eureka",
+								"apps",
+								"cards"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gatewayserver",
+			"item": [
+				{
+					"name": "gatewayserver_1_account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1YkQ5OHloaFJiZmtTMmZzT1hRdWxVUUxYMHc1eUtudWNWZFo1VjY2d2VFIn0.eyJleHAiOjE2ODgzMDQyODAsImlhdCI6MTY4ODMwNDIyMCwiYXV0aF90aW1lIjoxNjg4MzAyODM3LCJqdGkiOiI5MDNlMjIxMy0yMjA0LTQwNTUtODE5ZS0wZmQxNWMzM2IwZDMiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4Y2U2YjVlNy0xYzlmLTRkYzEtYTVhNy0xODA0ZTNlZTc4MWEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1nYXRld2F5Iiwic2Vzc2lvbl9zdGF0ZSI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2FhbnZpIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FhbnZpIiwiZ2l2ZW5fbmFtZSI6IlNhYW52aSIsImZhbWlseV9uYW1lIjoiUmVkZHkiLCJlbWFpbCI6InNhYW52aUBnbWFpbC5jb20ifQ.JWa4_j4CkMfzOOWQ9Zfmf983wwVR1-giJ8b3bEH2prfCUY2RSzlgwUiEAtbjcsAouhixlfddYk6ZOT1z-kbJOKCRdsvEGSLuJiZeZmG2kdy4vf61alkRYnTpAW9FBThfm9egV6zGUVdK5JEdXLIPTsKKNnMjZ7cDPPZKlbkfTbgL9ePfMZq2NTF_C6piNUUxDmEhmDZ3z68UdrPmentaktO8vV2GJiGE4dAa87_Zw8UzvDmU2voyx5JlE0MBFhLWn-11s9HVxXt9bo0DX54LtjiS3YsFvD-SwIuPLlGndpX4HogMtKufv9n9Z_SD2-FzjouOBhPJ1nsVj_1vaSc2ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sumit 101\",\n    \"email\": \"sumit101@learning.com\",\n    \"mobileNumber\": \"9990550996\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/accounts/api/v1/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"accounts",
+								"api",
+								"v1",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_1_card",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1YkQ5OHloaFJiZmtTMmZzT1hRdWxVUUxYMHc1eUtudWNWZFo1VjY2d2VFIn0.eyJleHAiOjE2ODgzMDQyODAsImlhdCI6MTY4ODMwNDIyMCwiYXV0aF90aW1lIjoxNjg4MzAyODM3LCJqdGkiOiI5MDNlMjIxMy0yMjA0LTQwNTUtODE5ZS0wZmQxNWMzM2IwZDMiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4Y2U2YjVlNy0xYzlmLTRkYzEtYTVhNy0xODA0ZTNlZTc4MWEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1nYXRld2F5Iiwic2Vzc2lvbl9zdGF0ZSI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2FhbnZpIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FhbnZpIiwiZ2l2ZW5fbmFtZSI6IlNhYW52aSIsImZhbWlseV9uYW1lIjoiUmVkZHkiLCJlbWFpbCI6InNhYW52aUBnbWFpbC5jb20ifQ.JWa4_j4CkMfzOOWQ9Zfmf983wwVR1-giJ8b3bEH2prfCUY2RSzlgwUiEAtbjcsAouhixlfddYk6ZOT1z-kbJOKCRdsvEGSLuJiZeZmG2kdy4vf61alkRYnTpAW9FBThfm9egV6zGUVdK5JEdXLIPTsKKNnMjZ7cDPPZKlbkfTbgL9ePfMZq2NTF_C6piNUUxDmEhmDZ3z68UdrPmentaktO8vV2GJiGE4dAa87_Zw8UzvDmU2voyx5JlE0MBFhLWn-11s9HVxXt9bo0DX54LtjiS3YsFvD-SwIuPLlGndpX4HogMtKufv9n9Z_SD2-FzjouOBhPJ1nsVj_1vaSc2ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lokesh Mittal\",\n    \"email\": \"lokesh@amazon.com\",\n    \"mobileNumber\": \"9650037559\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/cards/api/v1/create?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"cards",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_1_loan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1YkQ5OHloaFJiZmtTMmZzT1hRdWxVUUxYMHc1eUtudWNWZFo1VjY2d2VFIn0.eyJleHAiOjE2ODgzMDQyODAsImlhdCI6MTY4ODMwNDIyMCwiYXV0aF90aW1lIjoxNjg4MzAyODM3LCJqdGkiOiI5MDNlMjIxMy0yMjA0LTQwNTUtODE5ZS0wZmQxNWMzM2IwZDMiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4Y2U2YjVlNy0xYzlmLTRkYzEtYTVhNy0xODA0ZTNlZTc4MWEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1nYXRld2F5Iiwic2Vzc2lvbl9zdGF0ZSI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2FhbnZpIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FhbnZpIiwiZ2l2ZW5fbmFtZSI6IlNhYW52aSIsImZhbWlseV9uYW1lIjoiUmVkZHkiLCJlbWFpbCI6InNhYW52aUBnbWFpbC5jb20ifQ.JWa4_j4CkMfzOOWQ9Zfmf983wwVR1-giJ8b3bEH2prfCUY2RSzlgwUiEAtbjcsAouhixlfddYk6ZOT1z-kbJOKCRdsvEGSLuJiZeZmG2kdy4vf61alkRYnTpAW9FBThfm9egV6zGUVdK5JEdXLIPTsKKNnMjZ7cDPPZKlbkfTbgL9ePfMZq2NTF_C6piNUUxDmEhmDZ3z68UdrPmentaktO8vV2GJiGE4dAa87_Zw8UzvDmU2voyx5JlE0MBFhLWn-11s9HVxXt9bo0DX54LtjiS3YsFvD-SwIuPLlGndpX4HogMtKufv9n9Z_SD2-FzjouOBhPJ1nsVj_1vaSc2ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lokesh Mittal\",\n    \"email\": \"lokesh@amazon.com\",\n    \"mobileNumber\": \"9650037559\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/loans/api/v1/create?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"loans",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_2_account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1YkQ5OHloaFJiZmtTMmZzT1hRdWxVUUxYMHc1eUtudWNWZFo1VjY2d2VFIn0.eyJleHAiOjE2ODgzMDQyODAsImlhdCI6MTY4ODMwNDIyMCwiYXV0aF90aW1lIjoxNjg4MzAyODM3LCJqdGkiOiI5MDNlMjIxMy0yMjA0LTQwNTUtODE5ZS0wZmQxNWMzM2IwZDMiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4Y2U2YjVlNy0xYzlmLTRkYzEtYTVhNy0xODA0ZTNlZTc4MWEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1nYXRld2F5Iiwic2Vzc2lvbl9zdGF0ZSI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2FhbnZpIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FhbnZpIiwiZ2l2ZW5fbmFtZSI6IlNhYW52aSIsImZhbWlseV9uYW1lIjoiUmVkZHkiLCJlbWFpbCI6InNhYW52aUBnbWFpbC5jb20ifQ.JWa4_j4CkMfzOOWQ9Zfmf983wwVR1-giJ8b3bEH2prfCUY2RSzlgwUiEAtbjcsAouhixlfddYk6ZOT1z-kbJOKCRdsvEGSLuJiZeZmG2kdy4vf61alkRYnTpAW9FBThfm9egV6zGUVdK5JEdXLIPTsKKNnMjZ7cDPPZKlbkfTbgL9ePfMZq2NTF_C6piNUUxDmEhmDZ3z68UdrPmentaktO8vV2GJiGE4dAa87_Zw8UzvDmU2voyx5JlE0MBFhLWn-11s9HVxXt9bo0DX54LtjiS3YsFvD-SwIuPLlGndpX4HogMtKufv9n9Z_SD2-FzjouOBhPJ1nsVj_1vaSc2ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sumit 101\",\n    \"email\": \"sumit101@learning.com\",\n    \"mobileNumber\": \"9990550996\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/api/v1/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"api",
+								"v1",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_2_card",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1YkQ5OHloaFJiZmtTMmZzT1hRdWxVUUxYMHc1eUtudWNWZFo1VjY2d2VFIn0.eyJleHAiOjE2ODgzMDQyODAsImlhdCI6MTY4ODMwNDIyMCwiYXV0aF90aW1lIjoxNjg4MzAyODM3LCJqdGkiOiI5MDNlMjIxMy0yMjA0LTQwNTUtODE5ZS0wZmQxNWMzM2IwZDMiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4Y2U2YjVlNy0xYzlmLTRkYzEtYTVhNy0xODA0ZTNlZTc4MWEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1nYXRld2F5Iiwic2Vzc2lvbl9zdGF0ZSI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2FhbnZpIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FhbnZpIiwiZ2l2ZW5fbmFtZSI6IlNhYW52aSIsImZhbWlseV9uYW1lIjoiUmVkZHkiLCJlbWFpbCI6InNhYW52aUBnbWFpbC5jb20ifQ.JWa4_j4CkMfzOOWQ9Zfmf983wwVR1-giJ8b3bEH2prfCUY2RSzlgwUiEAtbjcsAouhixlfddYk6ZOT1z-kbJOKCRdsvEGSLuJiZeZmG2kdy4vf61alkRYnTpAW9FBThfm9egV6zGUVdK5JEdXLIPTsKKNnMjZ7cDPPZKlbkfTbgL9ePfMZq2NTF_C6piNUUxDmEhmDZ3z68UdrPmentaktO8vV2GJiGE4dAa87_Zw8UzvDmU2voyx5JlE0MBFhLWn-11s9HVxXt9bo0DX54LtjiS3YsFvD-SwIuPLlGndpX4HogMtKufv9n9Z_SD2-FzjouOBhPJ1nsVj_1vaSc2ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lokesh Mittal\",\n    \"email\": \"lokesh@amazon.com\",\n    \"mobileNumber\": \"9650037559\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/cards/api/v1/create?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"cards",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_2_loan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1YkQ5OHloaFJiZmtTMmZzT1hRdWxVUUxYMHc1eUtudWNWZFo1VjY2d2VFIn0.eyJleHAiOjE2ODgzMDQyODAsImlhdCI6MTY4ODMwNDIyMCwiYXV0aF90aW1lIjoxNjg4MzAyODM3LCJqdGkiOiI5MDNlMjIxMy0yMjA0LTQwNTUtODE5ZS0wZmQxNWMzM2IwZDMiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4Y2U2YjVlNy0xYzlmLTRkYzEtYTVhNy0xODA0ZTNlZTc4MWEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1nYXRld2F5Iiwic2Vzc2lvbl9zdGF0ZSI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2FhbnZpIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FhbnZpIiwiZ2l2ZW5fbmFtZSI6IlNhYW52aSIsImZhbWlseV9uYW1lIjoiUmVkZHkiLCJlbWFpbCI6InNhYW52aUBnbWFpbC5jb20ifQ.JWa4_j4CkMfzOOWQ9Zfmf983wwVR1-giJ8b3bEH2prfCUY2RSzlgwUiEAtbjcsAouhixlfddYk6ZOT1z-kbJOKCRdsvEGSLuJiZeZmG2kdy4vf61alkRYnTpAW9FBThfm9egV6zGUVdK5JEdXLIPTsKKNnMjZ7cDPPZKlbkfTbgL9ePfMZq2NTF_C6piNUUxDmEhmDZ3z68UdrPmentaktO8vV2GJiGE4dAa87_Zw8UzvDmU2voyx5JlE0MBFhLWn-11s9HVxXt9bo0DX54LtjiS3YsFvD-SwIuPLlGndpX4HogMtKufv9n9Z_SD2-FzjouOBhPJ1nsVj_1vaSc2ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lokesh Mittal\",\n    \"email\": \"lokesh@amazon.com\",\n    \"mobileNumber\": \"9650037559\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/loans/api/v1/create?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"loans",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchCustomerDetails",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "eazybank-correlation-id",
+								"value": "43gtrt-trtrrtgf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/customers/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"customers",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_2_account_get",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ1YkQ5OHloaFJiZmtTMmZzT1hRdWxVUUxYMHc1eUtudWNWZFo1VjY2d2VFIn0.eyJleHAiOjE2ODgzMDQyODAsImlhdCI6MTY4ODMwNDIyMCwiYXV0aF90aW1lIjoxNjg4MzAyODM3LCJqdGkiOiI5MDNlMjIxMy0yMjA0LTQwNTUtODE5ZS0wZmQxNWMzM2IwZDMiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODAvcmVhbG1zL21hc3RlciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI4Y2U2YjVlNy0xYzlmLTRkYzEtYTVhNy0xODA0ZTNlZTc4MWEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlYXp5YmFuay1nYXRld2F5Iiwic2Vzc2lvbl9zdGF0ZSI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsInNpZCI6IjRiY2I0ZTg3LTRlYTUtNGZiMS05ODI0LThiMzYxZTAxZWFiNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2FhbnZpIFJlZGR5IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2FhbnZpIiwiZ2l2ZW5fbmFtZSI6IlNhYW52aSIsImZhbWlseV9uYW1lIjoiUmVkZHkiLCJlbWFpbCI6InNhYW52aUBnbWFpbC5jb20ifQ.JWa4_j4CkMfzOOWQ9Zfmf983wwVR1-giJ8b3bEH2prfCUY2RSzlgwUiEAtbjcsAouhixlfddYk6ZOT1z-kbJOKCRdsvEGSLuJiZeZmG2kdy4vf61alkRYnTpAW9FBThfm9egV6zGUVdK5JEdXLIPTsKKNnMjZ7cDPPZKlbkfTbgL9ePfMZq2NTF_C6piNUUxDmEhmDZ3z68UdrPmentaktO8vV2GJiGE4dAa87_Zw8UzvDmU2voyx5JlE0MBFhLWn-11s9HVxXt9bo0DX54LtjiS3YsFvD-SwIuPLlGndpX4HogMtKufv9n9Z_SD2-FzjouOBhPJ1nsVj_1vaSc2ug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lokesh Mittal\",\n    \"email\": \"lokesh@amazon.com\",\n    \"mobileNumber\": \"9650037559\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/api/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"api",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_2_card_get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/cards/api/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"cards",
+								"api",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gatewayserver_2_loan_get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/loans/api/v1/fetch?mobileNumber=9990550996",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"loans",
+								"api",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "9990550996"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "KeyCloak",
+			"item": [
+				{
+					"name": "Accounts_GET_PermitAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/api/v1/contact-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"api",
+								"v1",
+								"contact-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cards_GET_PermitAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/cards/api/v1/contact-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"cards",
+								"api",
+								"v1",
+								"contact-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loans_GET_PermitAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/loans/api/v1/contact-info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"loans",
+								"api",
+								"v1",
+								"contact-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "-- AccessToken_ClientCredentials --",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "sumitbank-callcenter-cc",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "Gc07XiMzK1ax5A2M6cgwF9JPEuq8rzHp",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"realms",
+								"master",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accounts_POST_ClientCredentials",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJrWE54dnRTNURXUGt4OVcyY3lfbGt3LWFMVmpRSkNqSUVZV1ltWGRfVktFIn0.eyJleHAiOjE3NjczMTI0MjUsImlhdCI6MTc2NzMxMjM2NSwianRpIjoidHJydGNjOjE0ZDMxNWQyLTQwNjItM2NiZi0wMWU5LWEyMTc0N2Y2ZDJjNiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6Ijc2YWI5MDZkLTZjN2QtNDFmYy1iNzZmLTBlYTE0MTYzOGUxNiIsInR5cCI6IkJlYXJlciIsImF6cCI6InN1bWl0YmFuay1jYWxsY2VudGVyLWNjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsImNsaWVudEhvc3QiOiIxNzIuMTguMC4xIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtc3VtaXRiYW5rLWNhbGxjZW50ZXItY2MiLCJjbGllbnRBZGRyZXNzIjoiMTcyLjE4LjAuMSIsImNsaWVudF9pZCI6InN1bWl0YmFuay1jYWxsY2VudGVyLWNjIn0.w-BCq7Sc0KXYY6j0jY0B22mBNDmML9tCzd7HywaQjzFDdWh4LRLz63a8bfNnnIoievY0z3Jx4ZpLhB6ncvZLfS7l9c_mT9VFXn0A5d2Yp9H1xZvXbgro8RpO361yiZhxXXSwm-3udZyHOjMruCpfUi_ABM_SntjGTSV452IvAF-ZNiEVuVxLnxnBmTDOQI28tTJiivgUVNa7RedD2zKwaCx3Z1E_egEo2QSU6M1XB3ShIXJDKaFDogyaKBIRRih1XRNLcPfERI04ZFXkLhouRsY25vPkq4vbp5Ul5TozPqpH1ap76f2hbEXjxpb64PZt4mcg8nuFTsniS2_lb-E_MQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Samiksha Mittal\",\n    \"email\": \"samiksha@mittal.com\",\n    \"mobileNumber\": \"0101010102\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/api/v1/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"api",
+								"v1",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cards_POST_ClientCredentials",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHbGRwSF9nelFMRVJfYmg1UllxYS1qcWVvaWE2dnBmSEc3dW1nWDVDbDNJIn0.eyJleHAiOjE3NjcwNDQwMTUsImlhdCI6MTc2NzA0Mzk1NSwianRpIjoidHJydGNjOmQ0NWQ4NDc0LWIwNmYtNGYzZC0xODQ3LTQ5MTBhNTZjZTY3OSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFmYjVjNTZmLWE1MjQtNDkwMS04NzNiLTMxZTM0ZmIyZTBkZSIsInR5cCI6IkJlYXJlciIsImF6cCI6InN1bWl0YmFuay1jYWxsY2VudGVyLWNjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsImNsaWVudEhvc3QiOiIxNzIuMTcuMC4xIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtc3VtaXRiYW5rLWNhbGxjZW50ZXItY2MiLCJjbGllbnRBZGRyZXNzIjoiMTcyLjE3LjAuMSIsImNsaWVudF9pZCI6InN1bWl0YmFuay1jYWxsY2VudGVyLWNjIn0.PNEROGLDYDcmi6mWp6yWldOriNwMqveSWxtvnUmVfhj3NYS5RgHdmU255VmWKuKxIrLMhemdiQnmR_4d9WETlsp4a1YDGHuYaW7L4tund6Ln-w8lGiA3gzD456AAt5k0cgT8VGC3cP7MbM8kzU7EDHtrVmoCdq0yaMuhowqDRufJzkQ4Ij6LlPXJ5fZqWMWYs3mtSOM1TR4msCJxOPuHBIeXTagNj_Qsqw5ZETdqom9Zk00ut0Fmmqy457vMMX-vz_wcxkCiRFoJJ_OfJsdHuUHTggaaXZ0RtLup4kZSkKSfRcUj5k2Fxu3kYwmQnysUPVyO-sL-p-iPMAsaSN8mQg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/cards/api/v1/create?mobileNumber=0101010101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"cards",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "0101010101"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loans_POST_ClientCredentials",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHbGRwSF9nelFMRVJfYmg1UllxYS1qcWVvaWE2dnBmSEc3dW1nWDVDbDNJIn0.eyJleHAiOjE3NjcwNDQwMTUsImlhdCI6MTc2NzA0Mzk1NSwianRpIjoidHJydGNjOmQ0NWQ4NDc0LWIwNmYtNGYzZC0xODQ3LTQ5MTBhNTZjZTY3OSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImFmYjVjNTZmLWE1MjQtNDkwMS04NzNiLTMxZTM0ZmIyZTBkZSIsInR5cCI6IkJlYXJlciIsImF6cCI6InN1bWl0YmFuay1jYWxsY2VudGVyLWNjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiTE9BTlMiLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIkFDQ09VTlRTIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkNBUkRTIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsImNsaWVudEhvc3QiOiIxNzIuMTcuMC4xIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtc3VtaXRiYW5rLWNhbGxjZW50ZXItY2MiLCJjbGllbnRBZGRyZXNzIjoiMTcyLjE3LjAuMSIsImNsaWVudF9pZCI6InN1bWl0YmFuay1jYWxsY2VudGVyLWNjIn0.PNEROGLDYDcmi6mWp6yWldOriNwMqveSWxtvnUmVfhj3NYS5RgHdmU255VmWKuKxIrLMhemdiQnmR_4d9WETlsp4a1YDGHuYaW7L4tund6Ln-w8lGiA3gzD456AAt5k0cgT8VGC3cP7MbM8kzU7EDHtrVmoCdq0yaMuhowqDRufJzkQ4Ij6LlPXJ5fZqWMWYs3mtSOM1TR4msCJxOPuHBIeXTagNj_Qsqw5ZETdqom9Zk00ut0Fmmqy457vMMX-vz_wcxkCiRFoJJ_OfJsdHuUHTggaaXZ0RtLup4kZSkKSfRcUj5k2Fxu3kYwmQnysUPVyO-sL-p-iPMAsaSN8mQg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/loans/api/v1/create?mobileNumber=0101010101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"loans",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "0101010101"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchCustomerDetails",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "eazybank-correlation-id",
+								"value": "43gtrt-trtrrtgf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/customers/v1/fetch?mobileNumber=0101010101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"customers",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "0101010101"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "-- AccessToken_AuthorizationCode --",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "H7cpwXTslJbHZxf35dVUMRantFLNKEx1",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "a1b2c3-d4e5f6-g7h8i9",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "sumitbank-callcenter-ac",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:7080/realms/master/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authorizationcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "sumitbank-callcenter-ac",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "ETKrMS4wya8Z41Jovv2nvmWxMDsAaA7e",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"realms",
+								"master",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accounts_POST_AuthCode",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDVlBlemkxWUJkQk5JaDJoc24zZFY0c3RUYTloRUcwZFRLTGtxUWt4cXpzIn0.eyJleHAiOjE3NjU4MzcwMzUsImlhdCI6MTc2NTgzNjk3NSwiYXV0aF90aW1lIjoxNzY1ODM2OTcxLCJqdGkiOiJvbnJ0YWM6YjBmY2IwM2UtYWI3ZS1iOTY0LTVhYWYtNmQ4NTEzY2IwNTM4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDgwL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMDJkYThhYWEtYTAwNy00M2M0LTgyNzktYWQ3MDkyNTRkYmM3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic3VtaXRiYW5rLWNhbGxjZW50ZXItYWMiLCJzaWQiOiI5NTQxYTBjZS1iYjUzLWY1ODYtN2Q5MS03N2FhNjg0MWMxNmQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIkxPQU5TIiwiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJBQ0NPVU5UUyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJDQVJEUyJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlN1bWl0IE1pdHRhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InN1bWl0IiwiZ2l2ZW5fbmFtZSI6IlN1bWl0IiwiZmFtaWx5X25hbWUiOiJNaXR0YWwiLCJlbWFpbCI6InN1bWl0bWl0dGFsLmFkb25pc0BnbWFpbC5jb20ifQ.kpRKqcpJqSo5syyqVDBM8HUjPsvF0ni0AoLCBabW9qyr1P5YducL5DJHcjcuy2SWQqcGf6-KsSxxNEhBbDWb0NBsW6O87lkvhjvwYM12g7h6t9DBZCd8njR2P0CPx-sf-vFxkV2wQsvK5020LGk7xgC_4GiUajDqG4LTWrTr9RlIplx4QSzNmTysGQ6L1c9pbDvc8TMqKXmHLd9jncF4XHj2pQNY3NE8BSLZrQOCWZzA3LYTC7z2FasdeznW-2RMZJf2SHYQjWxD7Ltnv3cTgdGODC9MpDbFpaGdIMa5ktIA3PGgt4GxfbexMzCokqlwGwC8uTu5aaNRod4uBM0zWg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vibha Garg\",\n    \"email\": \"vibha@yahoo.com\",\n    \"mobileNumber\": \"0202020202\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/api/v1/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"api",
+								"v1",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cards_POST_AuthCode",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDVlBlemkxWUJkQk5JaDJoc24zZFY0c3RUYTloRUcwZFRLTGtxUWt4cXpzIn0.eyJleHAiOjE3NjU4MzcwMzUsImlhdCI6MTc2NTgzNjk3NSwiYXV0aF90aW1lIjoxNzY1ODM2OTcxLCJqdGkiOiJvbnJ0YWM6YjBmY2IwM2UtYWI3ZS1iOTY0LTVhYWYtNmQ4NTEzY2IwNTM4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDgwL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMDJkYThhYWEtYTAwNy00M2M0LTgyNzktYWQ3MDkyNTRkYmM3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic3VtaXRiYW5rLWNhbGxjZW50ZXItYWMiLCJzaWQiOiI5NTQxYTBjZS1iYjUzLWY1ODYtN2Q5MS03N2FhNjg0MWMxNmQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIkxPQU5TIiwiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJBQ0NPVU5UUyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJDQVJEUyJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlN1bWl0IE1pdHRhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InN1bWl0IiwiZ2l2ZW5fbmFtZSI6IlN1bWl0IiwiZmFtaWx5X25hbWUiOiJNaXR0YWwiLCJlbWFpbCI6InN1bWl0bWl0dGFsLmFkb25pc0BnbWFpbC5jb20ifQ.kpRKqcpJqSo5syyqVDBM8HUjPsvF0ni0AoLCBabW9qyr1P5YducL5DJHcjcuy2SWQqcGf6-KsSxxNEhBbDWb0NBsW6O87lkvhjvwYM12g7h6t9DBZCd8njR2P0CPx-sf-vFxkV2wQsvK5020LGk7xgC_4GiUajDqG4LTWrTr9RlIplx4QSzNmTysGQ6L1c9pbDvc8TMqKXmHLd9jncF4XHj2pQNY3NE8BSLZrQOCWZzA3LYTC7z2FasdeznW-2RMZJf2SHYQjWxD7Ltnv3cTgdGODC9MpDbFpaGdIMa5ktIA3PGgt4GxfbexMzCokqlwGwC8uTu5aaNRod4uBM0zWg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/cards/api/v1/create?mobileNumber=0202020202",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"cards",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "0202020202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Loans_POST_AuthCode",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDVlBlemkxWUJkQk5JaDJoc24zZFY0c3RUYTloRUcwZFRLTGtxUWt4cXpzIn0.eyJleHAiOjE3NjU4MzcwMzUsImlhdCI6MTc2NTgzNjk3NSwiYXV0aF90aW1lIjoxNzY1ODM2OTcxLCJqdGkiOiJvbnJ0YWM6YjBmY2IwM2UtYWI3ZS1iOTY0LTVhYWYtNmQ4NTEzY2IwNTM4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDgwL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMDJkYThhYWEtYTAwNy00M2M0LTgyNzktYWQ3MDkyNTRkYmM3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoic3VtaXRiYW5rLWNhbGxjZW50ZXItYWMiLCJzaWQiOiI5NTQxYTBjZS1iYjUzLWY1ODYtN2Q5MS03N2FhNjg0MWMxNmQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIkxPQU5TIiwiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJBQ0NPVU5UUyIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJDQVJEUyJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IlN1bWl0IE1pdHRhbCIsInByZWZlcnJlZF91c2VybmFtZSI6InN1bWl0IiwiZ2l2ZW5fbmFtZSI6IlN1bWl0IiwiZmFtaWx5X25hbWUiOiJNaXR0YWwiLCJlbWFpbCI6InN1bWl0bWl0dGFsLmFkb25pc0BnbWFpbC5jb20ifQ.kpRKqcpJqSo5syyqVDBM8HUjPsvF0ni0AoLCBabW9qyr1P5YducL5DJHcjcuy2SWQqcGf6-KsSxxNEhBbDWb0NBsW6O87lkvhjvwYM12g7h6t9DBZCd8njR2P0CPx-sf-vFxkV2wQsvK5020LGk7xgC_4GiUajDqG4LTWrTr9RlIplx4QSzNmTysGQ6L1c9pbDvc8TMqKXmHLd9jncF4XHj2pQNY3NE8BSLZrQOCWZzA3LYTC7z2FasdeznW-2RMZJf2SHYQjWxD7Ltnv3cTgdGODC9MpDbFpaGdIMa5ktIA3PGgt4GxfbexMzCokqlwGwC8uTu5aaNRod4uBM0zWg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/loans/api/v1/create?mobileNumber=0202020202",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"loans",
+								"api",
+								"v1",
+								"create"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "0202020202"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchCustomerDetails",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "eazybank-correlation-id",
+								"value": "43gtrt-trtrrtgf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8072/sumitbank/accounts/customers/v1/fetch?mobileNumber=0202020202",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"sumitbank",
+								"accounts",
+								"customers",
+								"v1",
+								"fetch"
+							],
+							"query": [
+								{
+									"key": "mobileNumber",
+									"value": "0202020202"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "message",
+			"item": [
+				{
+					"name": "email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountNumber\": 123456789,\n    \"name\": \"Sumit Mittal\",\n    \"email\": \"sumit@google.com  \",\n    \"mobileNumber\": \"9990550996\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9010/email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9010",
+							"path": [
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sms",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountNumber\": 123456789,\n    \"name\": \"Sumit Mittal\",\n    \"email\": \"sumit@google.com  \",\n    \"mobileNumber\": \"9990550996\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9010/sms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9010",
+							"path": [
+								"sms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "emailsms",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountNumber\": 1234545454,\n    \"name\": \"Madan Reddy\",\n    \"email\": \"tutor@eazybytes\",\n    \"mobileNumber\": \"4354437687\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9010/emailsms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9010",
+							"path": [
+								"emailsms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

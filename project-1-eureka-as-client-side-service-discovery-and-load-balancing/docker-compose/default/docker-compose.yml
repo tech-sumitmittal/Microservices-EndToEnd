@@ -196,8 +196,8 @@ services:
         condition: service_healthy
       accountsdb:
         condition: service_healthy
-      kafka:
-        condition: service_healthy
+      #kafka:
+      #  condition: service_healthy        # comment this properties if you want to use RabbitMQ instead of kafka for Event driven MS
     healthcheck:
       test: "curl --fail --silent accounts:8080/actuator/health/readiness | grep UP || exit 1"
       interval: 30s
@@ -210,7 +210,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
-      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
+      #SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
     extends:
       file: common-config.yml
       service: microservice-config
@@ -283,14 +283,14 @@ services:
     #image: "sumitbank/message:1.0"
     container_name: message-ms
     depends_on:
-      #rabbit:
-      #  condition: service_healthy
-      kafka:
-        condition: service_healthy
+      rabbit:
+        condition: service_healthy                               # uncomment this properties if you want to use RabbitMQ instead of kafka for Event driven MS
+      #kafka:
+      #  condition: service_healthy                               # comment this properties if you want to use RabbitMQ instead of kafka for Event driven MS
     environment:
-      #SPRING_RABBITMQ_HOST: "rabbit"
+      SPRING_RABBITMQ_HOST: "rabbit"                              # uncomment this properties if you want to use RabbitMQ instead of kafka for Event driven MS
+      #SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"     # comment this properties if you want to use RabbitMQ instead of kafka for Event driven MS
       OTEL_SERVICE_NAME: "message"
-      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
     extends:
       file: common-config.yml
       service: microservice-config

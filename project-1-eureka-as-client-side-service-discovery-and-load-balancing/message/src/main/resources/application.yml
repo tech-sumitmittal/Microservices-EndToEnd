@@ -14,11 +14,12 @@ spring:
           group: ${spring.application.name}
         emailsms-out-0:
           destination: sent-communication
-      default-binder: kafka
-      kafka:
-        binder:
-          brokers:
-            - localhost:9092
+      # comment below properties if you want to use RabbitMQ instead of kafka for Event driven MS
+      #default-binder: kafka
+      #kafka:
+      #  binder:
+      #    brokers:
+      #      - localhost:9092
   rabbitmq:
     host: localhost
     port: 5672

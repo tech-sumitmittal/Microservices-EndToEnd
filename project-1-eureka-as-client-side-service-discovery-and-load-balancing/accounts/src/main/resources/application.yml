@@ -38,11 +38,12 @@ spring:
         updateCommunication-in-0:
           destination: sent-communication
           group: ${spring.application.name}
-      default-binder: kafka
-      kafka:
-        binder:
-          brokers:
-            - localhost:9092
+      # comment below properties if you want to use RabbitMQ instead of kafka for Event driven MS
+      #default-binder: kafka
+      #kafka:
+      #  binder:
+      #    brokers:
+      #      - localhost:9092
 resilience4j:
   circuitbreaker:
     configs:
