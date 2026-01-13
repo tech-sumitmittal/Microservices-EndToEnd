@@ -99,10 +99,12 @@ Start mysql databases in local
 - Sample API → http://localhost:8072/sumitbank/accounts/api/v1/contact-info
 
 ### 🗄 Databases
-- To access database -                                             <br/>
-  host=localhost &nbsp;&nbsp;&nbsp;	 port=3306  &nbsp;&nbsp;&nbsp;	username=root &nbsp;&nbsp;&nbsp; 	password=root  <br/>
-  host=localhost &nbsp;&nbsp;&nbsp;	 port=3307  &nbsp;&nbsp;&nbsp;	username=root &nbsp;&nbsp;&nbsp;	password=root  <br/>
-  host=localhost &nbsp;&nbsp;&nbsp;	 port=3308  &nbsp;&nbsp;&nbsp;	username=root &nbsp;&nbsp;&nbsp;	password=root  <br/>
+```bash
+  #To access database -
+  host=localhost    port=3306     username=root     password=root
+  host=localhost    port=3307     username=root     password=root
+  host=localhost    port=3308     username=root     password=root
+```
 
 ---
 <br/>
@@ -128,10 +130,10 @@ Run docker images of individual microservices using their Dockerfiles -
     docker-compose up -d --build
     docker-compose down -v
     
-    - To access database -
-      host=localhost  	 port=3306  	username=root  	password=root
-      host=localhost 	 port=3307  	username=root 	password=root
-      host=localhost 	 port=3308  	username=root 	password=root   
+    #To access database -
+    host=localhost    port=3306   username=root   password=root
+    host=localhost    port=3307   username=root   password=root
+    host=localhost    port=3308   username=root   password=root   
 ```
 
 ---
@@ -145,12 +147,11 @@ Run docker images of individual microservices using their Dockerfiles -
     kubectl apply -f 2_secrets.yml
     kubectl apply -f 3_redis.yml
 
-    - To access database -
-      host=localhost  	 port=30306  	username=root  	password=root
-      host=localhost 	 port=30307  	username=root 	password=root
-      host=localhost 	 port=30308  	username=root 	password=root   
+    #To access database -
+    host=localhost  	 port=30306  	username=root  	password=root
+    host=localhost 	 port=30307  	username=root 	password=root
+    host=localhost 	 port=30308  	username=root 	password=root   
 ```
-
 ---
 
 <br/>
@@ -340,7 +341,7 @@ Run docker images of individual microservices using their Dockerfiles -
     helm dependencies build                                   #as accounts helm chart has dependency on common helm chart, so run this dependencies build command inside account to fetch the dependencies
     
     cd helm\environments\dev-env
-    helm template .					      #to see the built k8s manifest files
+    helm template .                                           #to see the built k8s manifest files
     
     # install keycloak
     download keycloak charts folder from https://github.com/bitnami/charts/tree/main/bitnami and paste in helm folder
