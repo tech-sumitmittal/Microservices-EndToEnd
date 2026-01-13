@@ -81,9 +81,9 @@ Start Keycloak Auth Server
 ### 🗄️ MySQL Databases
 Start mysql databases in local
 ```bash
-    docker run -d -p 3306:3306 --name accountsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=accountsdb mysql
-    docker run -d -p 3307:3306 --name cardsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cardsdb mysql
-    docker run -d -p 3308:3306 --name loansdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=loansdb mysql
+    docker run -d -p 3306:3306 --name accountsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=accountsdb mysql:8.3
+    docker run -d -p 3307:3306 --name cardsdb    -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cardsdb    mysql:8.3
+    docker run -d -p 3308:3306 --name loansdb    -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=loansdb    mysql:8.3
 ```
 
 ### ▶️ Start Services (IntelliJ)
@@ -192,14 +192,14 @@ Run docker images of individual microservices using their Dockerfiles -
     http://localhost:8761/eureka/apps
     
     To deregister any application from Eureka Server -
-      POST :	http://localhost:8080/actuator/shutdown
-      POST :	http://localhost:8081/actuator/shutdown
-      POST :	http://localhost:8082/actuator/shutdown
+      POST:	http://localhost:8080/actuator/shutdown
+      POST:	http://localhost:8081/actuator/shutdown
+      POST:	http://localhost:8082/actuator/shutdown
 ```
 
 ### 🔄 Bus Refresh
 ```bash
-    POST http://localhost:8080/actuator/busrefresh
+    POST: http://localhost:8080/actuator/busrefresh
     
     To check bus refresh - 
         Step-1: change accounts accounts.yml file in git configs       GET :  https://github.com/tech-sumitmittal/microservices-configs/blob/master/accounts.yml
