@@ -1,169 +1,370 @@
-# Master Microservices with Spring Boot, Docker, Kubernetes
+# 🚀 Microservices End-to-End Platform
 
-Learn how to create enterprise and production ready Microservices with Spring, Spring Cloud, Docker and Kubernetes.
+![Java](https://img.shields.io/badge/Java-17+-orange)
+&nbsp;&nbsp; ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-Microservices-brightgreen)
+&nbsp;&nbsp; ![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+&nbsp;&nbsp; ![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestrated-blueviolet)
+&nbsp;&nbsp; ![Helm](https://img.shields.io/badge/Helm-Charts-important)
 
-## Topics covered in the Project
-* 1 - Introduction to Microservices Architecture
-* 2- Building microservices using Spring Boot
-* 3 - How do we right size our microservices & identify boundaries
-* 4 - Handle deployment, portability &  scalability of microservices using Docker
-* 5 - Deep Dive on Cloud Native Apps & 15-Factor methodology
-* 6 - Configurations Management in Microservices
-* 7 - Using MySQL DBs inside microservices
-* 8 - Service Discovery & Service Registration in microservices
-* 9 - Gateway, Routing & Cross cutting concerns in Microservices
-* 10 - Making Microservices Resilient
-* 11 - Observability and monitoring of microservices
-* 12 - Microservices Security
-* 13 - Event Driven microservices using RabbitMQ,Spring Cloud Functions & Stream
-* 14 - Event Driven microservices using Kafka,Spring Cloud Functions & Stream
-* 15 - Container Orchestration using Kubernetes
-* 16 - Deep dive on Helm
-* 17 - Server-side service discovery and load balancing using Kubernetes
-* 18 - Deploying microservices into cloud K8s cluster
-* 19 - Introduction to K8s Ingress, Service Mesh (Istio) & mTLS
-* 20 - Congratulations & Thank You
+A complete **end-to-end microservices architecture** showcasing Spring Boot, Config Server, Eureka, Gateway, Kafka, RabbitMQ, Redis, Keycloak, Docker, Kubernetes, and Helm.
+
+---
+
+## 📚 Table of Contents
+
+1. [Prerequisites](#-prerequisites)
+2. [Run Options Overview](#-run-options-overview)
+3. [Option 1: Local From IntelliJ](#-option-1-local-from-intellij)
+4. [Option 2: Dockerfile of Individual Components](#-option-2-dockerfile-of-individual-components)
+5. [Option 3: Docker Compose](#-option-3-docker-compose)
+6. [Option 4: Kubernetes](#-option-4-kubernetes)
+7. [Option 5: Helm](#-option-5-helm)
+8. [Important Endpoints](#-important-endpoints)
+9. [Kubernetes Dashboard](#-kubernetes-dashboard)
+10. [Helm Commands & Rollback](#-helm-commands--rollback)
+
+---
+
+## ✅ Prerequisites
+
+- Java 17+
+- Docker & Docker Desktop
+- IntelliJ IDEA
+- Kubernetes (Docker Desktop)
+- Helm
+- Git
+
+---
+
+## 🔄 Run Options Overview
+
+| Option | Technology |
+|------|-----------|
+| 1 | Local + Docker |
+| 2 | Dockerfile |
+| 3 | Docker Compose |
+| 4 | Kubernetes |
+| 5 | Helm |
+
+---
+
+<br/>
+
+## 🧑‍💻 Option 1: Local from IntelliJ
+
+### 🐰 RabbitMQ
+install and run rabbitMQ on local
+```bash
+  docker run -d --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
+```
+🔗 http://localhost:15672 (guest / guest)
+
+### 📨 Kafka
+install and run Apache kafka server in local
+```bash
+  docker run -p 9092:9092 apache/kafka:4.1.1
+```
+
+### ⚡ Redis
+install and run Redis server in local
+```bash
+  docker run -d -p 6379:6379 --name sumitredis redis
+```
+
+### 🔐 Keycloak
+Start Keycloak Auth Server
+```bash
+  docker run -p 127.0.0.1:7080:8080 -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.4.7 start-dev
+```
+🔗 http://localhost:7080 (admin / admin)
+
+### 🗄️ MySQL Databases
+Start mysql databases in local
+```bash
+    docker run -d -p 3306:3306 --name accountsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=accountsdb mysql
+    docker run -d -p 3307:3306 --name cardsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=cardsdb mysql
+    docker run -d -p 3308:3306 --name loansdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=loansdb mysql
+```
+
+### ▶️ Start Services (IntelliJ)
+- Config Server → http://localhost:8888/accounts/prod
+- Eureka Server → http://localhost:8761
+- Accounts → http://localhost:8080/api/v1/contact-info
+- Cards → http://localhost:8081/api/v1/contact-info
+- Loans → http://localhost:8082/api/v1/contact-info
+
+### 🌐 Gateway
+- Actuator → http://localhost:8072/actuator
+- Routes → http://localhost:8072/actuator/gateway/routes    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [to see details in this end point, update application.yml   spring.cloud.gateway.discovery.locator.enabled=true]
+- Sample API → http://localhost:8072/sumitbank/accounts/api/v1/contact-info
+
+### 🗄 Databases
+- To access database -                                             <br/>
+  host=localhost &nbsp;&nbsp;&nbsp;	 port=3306  &nbsp;&nbsp;&nbsp;	username=root &nbsp;&nbsp;&nbsp; 	password=root  <br/>
+  host=localhost &nbsp;&nbsp;&nbsp;	 port=3307  &nbsp;&nbsp;&nbsp;	username=root &nbsp;&nbsp;&nbsp;	password=root  <br/>
+  host=localhost &nbsp;&nbsp;&nbsp;	 port=3308  &nbsp;&nbsp;&nbsp;	username=root &nbsp;&nbsp;&nbsp;	password=root  <br/>
+
+---
+<br/>
+
+## 🐳 Option 2: Dockerfile of Individual Components
+
+Run docker images of individual microservices using their Dockerfiles -
+
+1. create docker image from individual Dockerfile -
+    > docker build . t sumitmittal2022/accounts:1.0
+2. Run individual docker image -
+    > docker run -d -p 8080:8080 sumitmittal2022/accounts:1.0
+3. Push individual docker image to docker hub -
+   > docker push docker.io/sumitmittal2022/accounts:1.0
+
+---
+<br/>
+
+## 📦 Option 3: Docker Compose
+
+```bash
+    cd docker-compose/default
+    docker-compose up -d --build
+    docker-compose down -v
+    
+    - To access database -
+      host=localhost  	 port=3306  	username=root  	password=root
+      host=localhost 	 port=3307  	username=root 	password=root
+      host=localhost 	 port=3308  	username=root 	password=root   
+```
+
+---
+<br/>
 
 
-# Important Links
-- Spring Boot - https://spring.io/projects/spring-boot
-- Create SpringBoot project - https://start.spring.io
-- DTO pattern blog - https://martinfowler.com/eaaCatalog/dataTransferObject.html
-- Model Mapper - http://modelmapper.org/
-- Map Struct - https://mapstruct.org/
-- Spring Doc - https://springdoc.org/
-- Open API - https://www.openapis.org/
-- Lucidchart Blog - https://www.lucidchart.com/blog/ddd-event-storming
-- Docker website - https://www.docker.com
-- Docker hub website - https://hub.docker.com
-- Buildpacks website - https://buildpacks.io
-- Google Jib website - https://github.com/GoogleContainerTools/jib
-- Docker compose website - https://docs.docker.com/compose/
-- Twelve-Factor methodology - https://12factor.net
-- Beyond the Twelve-Factor App book - https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/
-- Spring Cloud website - https://spring.io/projects/spring-cloud
-- Spring Cloud Config website - https://spring.io/projects/spring-cloud-config
-- Spring Cloud Bus website - https://spring.io/projects/spring-cloud-bus
-- RabbitMQ website - https://www.rabbitmq.com
-- Hookdeck website- https://hookdeck.com
-- Spring Cloud Netflix website - https://spring.io/projects/spring-cloud-netflix
-- Spring Cloud OpenFeign - https://spring.io/projects/spring-cloud-openfeign
-- Netflix Blog - https://netflixtechblog.com/netflix-oss-and-spring-boot-coming-full-circle-4855947713a0
-- Resilience4j website - https://resilience4j.readme.io
-- Spring Cloud Gateway website - https://spring.io/projects/spring-cloud-gateway
-- Stripe RateLimitter pattern blog - https://stripe.com/blog/rate-limiters
-- Apache Benchmark website - https://httpd.apache.org
-- Grafana website - https://grafana.com
-- Grafana Loki setup - https://grafana.com/docs/loki/latest/get-started/quick-start/
-- Micrometer website - https://micrometer.io
-- Prometheus website - https://prometheus.io/
-- Grafana Dashboards - https://grafana.com/grafana/dashboards/
-- OpenTelemetry website - https://opentelemetry.io/
-- OpenTelemetry automatic instrumentation - https://opentelemetry.io/docs/instrumentation/java/automatic/
-- Keycloak website - https://www.keycloak.org/
-- Apache Kafka website - https://kafka.apache.org
-- Docker compose file for Kafka - https://github.com/bitnami/containers/blob/main/bitnami/kafka/docker-compose.yml
-- Local Kubernetes Cluster with Docker Desktop - https://docs.docker.com/desktop/kubernetes/
-- Kubernetes Dashboard - https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-- Helm website - https://helm.sh
-- Chocolatey website - https://chocolatey.org/
-- Bitnami Helm charts GitHub repo - https://github.com/bitnami/charts
-- Spring Cloud Kubernetes website - https://spring.io/projects/spring-cloud-kubernetes
-- Spring Cloud Kubernetes Blog - https://spring.io/blog/2021/10/26/new-features-for-spring-cloud-kubernetes-in-spring-cloud-2021-0-0-m3
-- GCP website - https://cloud.google.com
-- GCP SDK installation - https://cloud.google.com/sdk/docs/install
-- Kubernetes Ingress - https://kubernetes.io/docs/concepts/services-networking/ingress/
-- Ingress Controllers - https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/
-- Istio (Service mesh) - https://istio.io
+## ☸️ Option 4: Kubernetes
+
+```bash
+    kubectl apply -f 1_configmap.yml
+    kubectl apply -f 2_secrets.yml
+    kubectl apply -f 3_redis.yml
+
+    - To access database -
+      host=localhost  	 port=30306  	username=root  	password=root
+      host=localhost 	 port=30307  	username=root 	password=root
+      host=localhost 	 port=30308  	username=root 	password=root   
+```
+
+---
+
+<br/>
 
 
-## Maven Commands used in the course
+## 🧭 Option 5: Helm
 
-|     Maven Command       |     Description          |
-| ------------- | ------------- |
-| "mvn clean install -Dmaven.test.skip=true" | To generate a jar inside target folder |
-| "mvn spring-boot:run" | To start a springboot maven project |
-| "mvn spring-boot:build-image" | To generate a docker image using Buildpacks. No need of Dockerfile |
-| "mvn compile jib:dockerBuild" | To generate a docker image using Google Jib. No need of Dockerfile |
+```bash
+  cd helm
+  
+```
 
-## Docker Commands used in the course
+---
 
-| Docker Command                                                                                                                |     Description          |
-|-------------------------------------------------------------------------------------------------------------------------------| ------------- |
-| "docker build . -t sumitmittal/accounts:s4"                                                                                   | To generate a docker image based on a Dockerfile |
-| "docker run  -p 8080:8080 sumitmittal/accounts:s4"                                                                            | To start a docker container based on a given image |
-| "docker images"                                                                                                               | To list all the docker images present in the Docker server |
-| "docker image inspect image-id"                                                                                               | To display detailed image information for a given image id |
-| "docker image rm image-id"                                                                                                    | To remove one or more images for a given image ids |
-| "docker image push docker.io/sumitmittal/accounts:s4"                                                                         | To push an image or a repository to a registry |
-| "docker image pull docker.io/sumitmittal/accounts:s4"                                                                         | To pull an image or a repository from a registry |
-| "docker ps"                                                                                                                   | To show all running containers |
-| "docker ps -a"                                                                                                                | To show all containers including running and stopped |
-| "docker container start container-id"                                                                                         | To start one or more stopped containers |
-| "docker container pause container-id"                                                                                         | To pause all processes within one or more containers |
-| "docker container unpause container-id"                                                                                       | To unpause all processes within one or more containers |
-| "docker container stop container-id"                                                                                          | To stop one or more running containers |
-| "docker container kill container-id"                                                                                          | To kill one or more running containers instantly |
-| "docker container restart container-id"                                                                                       | To restart one or more containers |
-| "docker container inspect container-id"                                                                                       | To inspect all the details for a given container id |
-| "docker container logs container-id"                                                                                          | To fetch the logs of a given container id |
-| "docker container logs -f container-id"                                                                                       | To follow log output of a given container id |
-| "docker container rm container-id"                                                                                            | To remove one or more containers based on container ids |
-| "docker container prune"                                                                                                      | To remove all stopped containers |
-| "docker compose up"                                                                                                           | To create and start containers based on given docker compose file |
-| "docker compose down"                                                                                                         | To stop and remove containers |
-| "docker compose start"                                                                                                        | To start containers based on given docker compose file |
-| "docker compose down"                                                                                                         | To stop the running containers |
-| "docker run -p 3306:3306 --name accountsdb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=accountsdb -d mysql"                 | To create a MySQL DB container |
-| "docker run -p 6379:6379 --name sumitredis -d redis"                                                                          | To create a Redis Container |
-| "docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:22.0.3 start-dev" | To create Keycloak Container|
+<br/>
 
 
-## Apache Benchmark command used in the course
+## 🔗 Important Endpoints
 
-| Apache Benchmark command                                                    |     Description          |
-|-----------------------------------------------------------------------------| ------------- |
-| "ab -n 10 -c 2 -v 3 http://localhost:8072/sumitbank/cards/api/contact-info" | To perform load testing on API by sending 10 requests |
+### Actuators
+```bash
+    http://localhost:8080/actuator
+    http://localhost:8081/actuator
+    http://localhost:8082/actuator
+```
 
-## Kubernetes Commands used in the course
+### Config Server
+```bash
+    http://localhost:8888/accounts/{profile}            
+    http://localhost:8888/cards/{profile}
+    http://localhost:8888/loans/{profile}
+    profile =   default  /  qa  /  prod
+```
 
-|     Kubernetes Command       |     Description          |
-| ------------- | ------------- |
-| "kubectl apply -f filename" | To create a deployment/service/configmap based on a given YAML file |
-| "kubectl get all" | To get all the components inside your cluster |
-| "kubectl get pods" | To get all the pods details inside your cluster |
-| "kubectl get pod pod-id" | To get the details of a given pod id |
-| "kubectl describe pod pod-id" | To get more details of a given pod id |
-| "kubectl delete pod pod-id" | To delete a given pod from cluster |
-| "kubectl get services" | To get all the services details inside your cluster |
-| "kubectl get service service-id" | To get the details of a given service id |
-| "kubectl describe service service-id" | To get more details of a given service id |
-| "kubectl get nodes" | To get all the node details inside your cluster |
-| "kubectl get node node-id" | To get the details of a given node |
-| "kubectl get replicasets" | To get all the replica sets details inside your cluster |
-| "kubectl get replicaset replicaset-id" | To get the details of a given replicaset |
-| "kubectl get deployments" | To get all the deployments details inside your cluster |
-| "kubectl get deployment deployment-id" | To get the details of a given deployment |
-| "kubectl get configmaps" | To get all the configmap details inside your cluster |
-| "kubectl get configmap configmap-id" | To get the details of a given configmap |
-| "kubectl get events --sort-by=.metadata.creationTimestamp" | To get all the events occured inside your cluster |
-| "kubectl scale deployment accounts-deployment --replicas=1" | To set the number of replicas for a deployment inside your cluster |
-| "kubectl set image deployment gatewayserver-deployment gatewayserver=sumitmittal/gatewayserver:s11 --record" | To set a new image for a deployment inside your cluster |
-| "kubectl rollout history deployment gatewayserver-deployment" | To know the rollout history for a deployment inside your cluster |
-| "kubectl rollout undo deployment gatewayserver-deployment --to-revision=1" | To rollback to a given revision for a deployment inside your cluster |
-| "kubectl get pvc" | To list the pvcs inside your cluster |
-| "kubectl delete pvc data-happy-panda-mariadb-0" | To delete a pvc inside your cluster |
+### Eureka server dashboard
+```bash
+    http://localhost:8761
+    http://localhost:8761/eureka/apps
+    
+    To deregister any application from Eureka Server -
+      POST :	http://localhost:8080/actuator/shutdown
+      POST :	http://localhost:8081/actuator/shutdown
+      POST :	http://localhost:8082/actuator/shutdown
+```
 
-## Helm Commands used in the course
+### 🔄 Bus Refresh
+```bash
+    POST http://localhost:8080/actuator/busrefresh
+    
+    To check bus refresh - 
+        Step-1: change accounts accounts.yml file in git configs       GET :  https://github.com/tech-sumitmittal/microservices-configs/blob/master/accounts.yml
+        Step-2: see the updated values in config server                GET :  http://localhost:8888/accounts/default
+        Step-3: Check the accounts MS has old values                   GET :  http://localhost:8080/api/v1/contact-info
+        Step-4: Hit busrefresh url and check in accounts MS            POST:  http://localhost:8080/actuator/busrefresh
+```
 
-|     Helm Command       |     Description          |
-| ------------- | ------------- |
-| "helm create [NAME]" | Create a default chart with the given name |
-| "helm dependencies build" | To recompile the given helm chart |
-| "helm install [NAME] [CHART]" | Install the given helm chart into K8s cluster |
-| "helm upgrade [NAME] [CHART]" | Upgrades a specified release to a new version of a chart |
-| "helm history [NAME]" | Display historical revisions for a given release |
-| "helm rollback [NAME] [REVISION]" | Roll back a release to a previous revision |
-| "helm uninstall [NAME]" | Uninstall all of the resources associated with a given release |
-| "helm template [NAME] [CHART]" | Render chart templates locally along with the values |
-| "helm list" | Lists all of the helm releases inside a K8s cluster |
+### 🤝 Feign Client
+```bash
+  http://localhost:8080/customers/v1/fetch?mobileNumber=9876543210
+```
+
+### 📊 Grafana UI dashboard
+```bash
+  http://localhost:3000
+```
+
+---
+
+<br/>
+
+
+## 🖥️ Kubernetes Dashboard
+
+- Install helm and k8s UI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  (Ref: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+
+```bash
+  STEP-1: start docker desktop and kubernetes
+  
+  STEP-2: Install Helm(k8s pkg manager) through winget package manager, (Winget already comes with window, hence open command prompt and run below command) -
+            winget install Helm.Helm --source winget
+          
+  STEP-3: To check helm is installed -
+            helm version
+
+  STEP-4: Install Kubernates dashboard UI -
+            # Add kubernetes-dashboard repository
+            helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+            # Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
+            helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+
+  STEP-5: Run below command to expose the k8s dashboard at 8443 port -
+            kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
+
+  STEP-6: To access k8s dashboard -
+            https://localhost:8443
+            
+  STEP-7: To access database - 
+            host=localhost 	port=30306	username=root 	password=root 	initialDB=accountsdb
+            host=localhost 	port=30307	username=root 	password=root 	initialDB=cardsdb
+            host=localhost 	port=30308	username=root 	password=root 	initialDB=loansdb       
+```
+
+<br/>
+
+- Create a sample user in k8s & generate token to access the k8s dashboard <br/>
+    (Ref: https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
+```bash
+  cd D:\Study\Project\Repos\Microservices-EndToEnd\kubernetes
+  kubectl apply -f  setup/dashboard-adminuser.yml
+  kubectl apply -f  setup/dashboard-rolebinding.yml
+  #kubectl apply -f setup/dashboard-secret.yml
+  #kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath="{.data.token}" | base64 -d
+  kubectl  create token admin-user -n kubernetes-dashboard
+```
+
+<br/>
+
+- k8s commands
+```bash
+    kubectl apply -f 1_configmap.yml
+    kubectl apply -f 2_secrets.yml
+    kubectl apply -f 3_redis.yml
+    .
+    .
+       
+    # get
+    kubectl get deployments                               # to check all the deployments in default namespace
+    kubectl get replicasets                               # to check all the replicaset in default namespace
+    kubectl get pods                                      # to check all the pods in default namespace
+    kubectl get services                                  # to check all the services in default namespace
+    
+    # describe
+    kubectl describe deployment/replicaset/pod/service <accounts-deployment-6456b6497b>   
+    
+    # logs
+    kubectl logs -f configserver-deployment-65c98849b5-kq78r                # -f to tail logs
+    kubectl logs -f accounts-deployment-6456b6497b-n4c47 -c accounts        # If the pod has multiple containers
+    kubectl logs -f deployment/accounts-deployment                          # tail logs using deployment name [recommended]   
+
+    # Clean up
+    kubectl delete serviceaccount admin-user -n kubernetes-dashboard
+    kubectl delete clusterrolebinding admin-user -n kubernetes-dashboard
+    kubectl delete -f 5_accounts.yml    [This will remove all resources defined in that YAML, including: Deployment, Replicaset, Pods, Service]
+        # if want to delete manually 1 by 1 then :
+        kubectl delete deployment <DEP>
+        kubectl delete replicatset <REP>
+        kubectl delete pod <POD>
+        kubectl delete service <SER>
+        kubectl delete pvc <PVC>
+
+    # deploy change
+    kubectl scale deployment accounts-deployment --replicas=3
+    kubectl set image deployment gatewayserver-deployment gatewayserver=sumitmittal2022/gatewayserver:2.0 --record
+    
+    # rollout history
+    kubectl rollout history deployment gatewayserver-deployment
+        REVISION  CHANGE-CAUSE
+        1         <none>
+        2         kubectl.exe set image deployment gatewayserver-deployment gatewayserver=sumitmittal2022/gatewayserver:2.0 --record=true
+    # rollout to any version
+    kubectl rollout undo deployment gatewayserver-deployment --to-revision=1
+    
+    # all events occurred in our k8s cluster
+    kubectl get events --sort-by=.metadata.creationTimestamp --watch
+```
+
+---
+
+<br/>
+
+## 🎛️ Helm Commands & Rollback
+
+```bash
+    # installing existing helm chart
+    helm ls
+    helm repo add bitnami https://charts.bitnami.com/bitnami
+    helm install happy-panda bitnami/wordpress
+    helm uninstall happy-panda
+    
+    # create our own helm chart
+    D:\Study\Project\Repos\Microservices-EndToEnd\helm
+    helm create sumitbank-common
+    
+    cd helm\sumitbank-microservices
+    helm create accounts
+    cd helm\sumitbank-microservices\accounts
+    helm dependencies build                                   #as accounts helm chart has dependency on common helm chart, so run this dependencies build command inside account to fetch the dependencies
+    
+    cd helm\environments\dev-env
+    helm template .					      #to see the built k8s manifest files
+    
+    # install keycloak
+    download keycloak charts folder from https://github.com/bitnami/charts/tree/main/bitnami and paste in helm folder
+    cd helm\keycloak
+    helm dependencies build                                     #Build / download chart dependencies
+    cd helm
+    helm install keycloak keycloak                              #Install Keycloak using Helm, now keycloak is available at http://localhost:80] [Not working because commercial paid now
+    helm install keycloak bitnami/keycloak --version 24.3.0     #Install Keycloak using Helm, now keycloak is available at http://localhost:80
+    kubectl get svc keycloak -n default -w                      #prints the current state of the service in default namespace, -w : Watch for live updates
+    helm uninstall keycloak                                     #Uninstall keycloak using Helm
+    
+    # run prod profile
+    cd helm\environments
+    helm install sumitbank prod-env
+    helm upgrade sumitbank prod-env                             #to deploy updates
+    
+    # rollback
+    cd helm\environments
+    helm history sumitbank                                      #to see all the helm install history
+    helm rollback sumitbank 1                                   #to rollback the helm to revision 1
+```
+
+---
+
+<br/>
+
+✨ **Happy Coding & Cloud-Native Learning!**
